@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulazione Esame Spagnolo - 30 minuti - Versione COMPLETA</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-bg: #ffffff;
+            --secondary-bg: #f5f5f5;
+            --text-primary: #1a1a1a;
+            --text-secondary: #666666;
+            --border-color: #e0e0e0;
+            --accent-info: #2563eb;
+            --accent-success: #10b981;
+            --accent-warning: #f59e0b;
+            --accent-danger: #ef4444;
+            --radius: 8px;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--secondary-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            padding: 1rem;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .start-screen {
+            text-align: center;
+            padding: 3rem 2rem;
+            background: var(--primary-bg);
+            border-radius: var(--radius);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .start-screen h1 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .start-screen p {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            font-size: 1.05rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--secondary-bg);
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            border: 1px solid var(--border-color);
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            font-size: 1.75rem;
+            font-weight: 600;
+        }
+
+        .btn-start {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            background: var(--accent-info);
+            color: white;
+            border: none;
+            border-radius: var(--radius);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-start:hover {
+            background: #1d4ed8;
+        }
+
+        .exam-screen {
+            display: none;
+        }
+
+        .exam-header {
+            background: var(--primary-bg);
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .timer {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .timer-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            font-variant-numeric: tabular-nums;
+            color: var(--accent-info);
+        }
+
+        .timer-value.warning {
+            color: var(--accent-warning);
+        }
+
+        .timer-value.danger {
+            color: var(--accent-danger);
+        }
+
+        .timer-label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        .progress-info {
+            text-align: center;
+        }
+
+        .progress-label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.25rem;
+        }
+
+        .progress-value {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .btn-toggle-answers {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border-color);
+            background: var(--primary-bg);
+            border-radius: var(--radius);
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .btn-toggle-answers:hover {
+            background: var(--secondary-bg);
+        }
+
+        .btn-toggle-answers.active {
+            background: var(--accent-info);
+            color: white;
+            border-color: var(--accent-info);
+        }
+
+        .theme {
+            margin-bottom: 1.5rem;
+        }
+
+        .theme-header {
+            background: var(--secondary-bg);
+            padding: 1rem;
+            border-radius: var(--radius);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid var(--border-color);
+            transition: all 0.2s;
+            user-select: none;
+        }
+
+        .theme-header:hover {
+            background: #efefef;
+        }
+
+        .theme-header h2 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .theme-header .icon {
+            font-size: 1.25rem;
+            transition: transform 0.2s;
+        }
+
+        .theme.expanded .theme-header .icon {
+            transform: rotate(180deg);
+        }
+
+        .theme-content {
+            display: none;
+            padding-top: 0.5rem;
+        }
+
+        .theme.expanded .theme-content {
+            display: block;
+        }
+
+        .exercise {
+            background: var(--primary-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        .exercise-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .exercise-instructions {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            font-style: italic;
+        }
+
+        .exercise-items {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .item {
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .item-label {
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .item-number {
+            font-weight: 600;
+        }
+
+        .item-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            font-size: 0.95rem;
+            font-family: inherit;
+            transition: border-color 0.2s;
+        }
+
+        .item-input:focus {
+            outline: none;
+            border-color: var(--accent-info);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .item-answer {
+            margin-top: 0.5rem;
+            padding: 0.75rem;
+            background: #ecfdf5;
+            border-left: 3px solid var(--accent-success);
+            border-radius: 0 var(--radius) var(--radius) 0;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        .item-answer.visible {
+            display: block;
+        }
+
+        .item-answer strong {
+            color: var(--accent-success);
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal-overlay.visible {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--primary-bg);
+            border-radius: var(--radius);
+            padding: 2rem;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        .modal h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent-warning);
+        }
+
+        .modal p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .modal .score {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent-info);
+            margin-bottom: 1rem;
+        }
+
+        .btn-restart {
+            padding: 0.75rem 1.5rem;
+            background: var(--accent-info);
+            color: white;
+            border: none;
+            border-radius: var(--radius);
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn-restart:hover {
+            background: #1d4ed8;
+        }
+
+        @media (max-width: 768px) {
+            .exam-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .timer-value {
+                font-size: 2rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --primary-bg: #1e1e1e;
+                --secondary-bg: #2a2a2a;
+                --text-primary: #e0e0e0;
+                --text-secondary: #999999;
+                --border-color: #444444;
+            }
+
+            .item-answer {
+                background: #064e3b;
+                color: #d1fae5;
+            }
+
+            .item-answer strong {
+                color: #6ee7b7;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="startScreen" class="start-screen">
+            <h1>📚 Simulazione d'Esame Spagnolo</h1>
+            <p>Prova la tua preparazione in 30 minuti</p>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Tempo totale</div>
+                    <div class="stat-value">30 min</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Esercizi totali</div>
+                    <div class="stat-value" id="totalExercisesLabel">75+</div>
+                </div>
+            </div>
+
+            <button class="btn-start" onclick="startExam()">Inizia l'esame</button>
+        </div>
+
+        <div id="examScreen" class="exam-screen">
+            <div class="exam-header">
+                <div class="timer">
+                    <div>
+                        <div class="timer-label">⏱️ Tempo rimanente</div>
+                        <div class="timer-value" id="timerDisplay">30:00</div>
+                    </div>
+                </div>
+
+                <div class="progress-info">
+                    <div class="progress-label">Progresso</div>
+                    <div class="progress-value"><span id="answeredCount">0</span>/<span id="totalCount">75</span></div>
+                </div>
+
+                <button class="btn-toggle-answers" id="toggleAnswersBtn" onclick="toggleAllAnswers()">
+                    Mostra risposte
+                </button>
+            </div>
+
+            <div id="themesContainer"></div>
+        </div>
+    </div>
+
+    <div id="modalOverlay" class="modal-overlay">
+        <div class="modal">
+            <h2>⏰ Tempo scaduto!</h2>
+            <p>La simulazione è terminata</p>
+            <div class="score" id="finalScore">0/75</div>
+            <button class="btn-restart" onclick="location.reload()">Ricomincia</button>
+        </div>
+    </div>
+
+    <script>
+        const exercises = {
+            'Verbi al Futuro': [
+                {
+                    id: 1,
+                    title: 'Completa con il verbo al futuro semplice',
+                    instructions: 'Coniuga il verbo corretto in futuro semplice',
+                    items: [
+                        { num: 1, text: 'En esta clase no .................... más de treinta alumnos.', answer: 'cabrán' },
+                        { num: 2, text: 'Solo si hablamos con él, .................... la verdad.', answer: 'sabremos' },
+                        { num: 3, text: 'Perdóname, te prometo que la próxima vez (yo) .................... más interés.', answer: 'pondré' },
+                        { num: 4, text: '(Yo) Hoy .................... más tarde del trabajo.', answer: 'saldré' },
+                        { num: 5, text: '¿Por qué no vienes? .................... mucha gente conocida.', answer: 'Habrá' },
+                        { num: 6, text: 'No te preocupes, no .................... nada.', answer: 'diremos' },
+                        { num: 7, text: 'Esta camisa .................... unos 60 euros con el descuento.', answer: 'valdrá' },
+                        { num: 8, text: 'Carlos nos ha dicho que .................... todo lo posible.', answer: 'hará' },
+                        { num: 9, text: 'Me apuesto que Ana no .................... a la fiesta.', answer: 'vendrá' },
+                        { num: 10, text: 'La hermana de Gabriel .................... unos 40 años.', answer: 'tendrá' }
+                    ]
+                }
+            ],
+            'Preposizioni': [
+                {
+                    id: 2,
+                    title: 'Completa con la preposizione corretta',
+                    instructions: 'Scegli la preposizione adatta (a, en, por, para)',
+                    items: [
+                        { num: 1, text: 'La biblioteca está ................... el centro.', answer: 'en' },
+                        { num: 2, text: 'Voy ................... el centro. ¿Quieres venir conmigo?', answer: 'al' },
+                        { num: 3, text: 'No salimos ................... la lluvia.', answer: 'por' },
+                        { num: 4, text: 'Voy a dormir un rato ................... descansar.', answer: 'para' },
+                        { num: 5, text: 'Mañana ................... la mañana voy al taller.', answer: 'por' },
+                        { num: 6, text: 'Tengo que hacer los deberes ................... mañana.', answer: 'para' },
+                        { num: 7, text: 'No puedo salir ................... tengo un examen.', answer: 'porque' },
+                        { num: 8, text: 'El libro está ................... el escritorio.', answer: 'en' },
+                        { num: 9, text: 'Compré el regalo ................... mi hermana.', answer: 'para' },
+                        { num: 10, text: 'Paseamos ................... el parque.', answer: 'por' }
+                    ]
+                }
+            ],
+            'Congiuntivo vs Indicativo': [
+                {
+                    id: 3,
+                    title: 'Scegli il verbo nella forma corretta',
+                    instructions: 'Decidi se usare l\'indicativo o il congiuntivo',
+                    items: [
+                        { num: 1, text: 'Creo que (estar) en casa.', answer: 'está' },
+                        { num: 2, text: 'No creo que (ser) posible.', answer: 'sea' },
+                        { num: 3, text: 'Es obvio que (llover) mañana.', answer: 'llueve' },
+                        { num: 4, text: 'Es imprescindibile que (venir).', answer: 'vengas' },
+                        { num: 5, text: 'Supongo que (tener) razón.', answer: 'tiene' },
+                        { num: 6, text: 'No estoy seguro de que (hablar) español.', answer: 'hable' },
+                        { num: 7, text: 'Es verdad que (trabajar) mucho.', answer: 'trabaja' },
+                        { num: 8, text: 'No es cierto que (vivir) aquí.', answer: 'viva' }
+                    ]
+                }
+            ],
+            'Lessico Professionale': [
+                {
+                    id: 4,
+                    title: 'Completa con la parola adatta',
+                    instructions: 'Scrivi la professione o il termine corretto',
+                    items: [
+                        { num: 1, text: 'Persona che cura i malati: un ....................', answer: 'médico' },
+                        { num: 2, text: 'Persona che difende in tribunale: un ....................', answer: 'abogado' },
+                        { num: 3, text: 'Persona che progetta edifici: un ....................', answer: 'arquitecto' },
+                        { num: 4, text: 'Persona che scrive su un giornale: un ....................', answer: 'periodista' },
+                        { num: 5, text: 'Persona che insegna: un ....................', answer: 'profesor' },
+                        { num: 6, text: 'Persona che accoglie gli ospiti: un ....................', answer: 'recepcionista' },
+                        { num: 7, text: 'Persona che serve al ristorante: un ....................', answer: 'camarero' },
+                        { num: 8, text: 'Persona che pilota un aereo: un ....................', answer: 'piloto' }
+                    ]
+                }
+            ],
+            'Passato Prossimo': [
+                {
+                    id: 5,
+                    title: 'Coniuga i verbi al passato prossimo',
+                    instructions: 'Completa le frasi con il passato prossimo corretto',
+                    items: [
+                        { num: 1, text: '(Yo) ................. (hacer) los deberes ayer.', answer: 'he hecho' },
+                        { num: 2, text: 'Ellos ................. (venir) a las 5.', answer: 'han venido' },
+                        { num: 3, text: '¿(Tú) ................. (ver) la película?', answer: 'has visto' },
+                        { num: 4, text: '(Nosotros) ................. (estar) en casa todo el día.', answer: 'hemos estado' },
+                        { num: 5, text: '(Ella) ................. (escribir) una carta.', answer: 'ha escrito' },
+                        { num: 6, text: '¿(Ustedes) ................. (comer) ya?', answer: 'han comido' },
+                        { num: 7, text: '(Yo) ................. (romper) el vaso.', answer: 'he roto' },
+                        { num: 8, text: '(Ellas) ................. (salir) temprano.', answer: 'han salido' }
+                    ]
+                }
+            ],
+            'Passato Imperfetto': [
+                {
+                    id: 6,
+                    title: 'Coniuga i verbi al passato imperfetto',
+                    instructions: 'Completa le frasi con il passato imperfetto corretto',
+                    items: [
+                        { num: 1, text: '(Yo) ................. (hablar) español cuando (ser) niño.', answer: 'hablaba / era' },
+                        { num: 2, text: '(Nosotros) ................. (vivir) en Madrid en 2010.', answer: 'vivíamos' },
+                        { num: 3, text: '(Ella) ................. (tener) un gato negro.', answer: 'tenía' },
+                        { num: 4, text: '(Ustedes) ................. (ir) al cine todas las semanas.', answer: 'iban' },
+                        { num: 5, text: '(Yo) ................. (estar) muy cansado.', answer: 'estaba' },
+                        { num: 6, text: '(Ellos) ................. (jugar) en el parque.', answer: 'jugaban' },
+                        { num: 7, text: '(Tú) ................. (ser) muy alegre.', answer: 'eras' }
+                    ]
+                }
+            ],
+            'Presente Indicativo': [
+                {
+                    id: 7,
+                    title: 'Coniuga i verbi al presente indicativo',
+                    instructions: 'Completa le frasi con il presente indicativo corretto',
+                    items: [
+                        { num: 1, text: '(Yo) ................. en una oficina.', answer: 'trabajo' },
+                        { num: 2, text: '(Ella) ................. tres idiomas.', answer: 'habla' },
+                        { num: 3, text: '(Nosotros) ................. en casa.', answer: 'vivimos' },
+                        { num: 4, text: '(Ustedes) ................. mucho tiempo libre.', answer: 'tienen' },
+                        { num: 5, text: '(Yo) ................. una casa grande.', answer: 'tengo' },
+                        { num: 6, text: '(Ellos) ................. al trabajo todos los días.', answer: 'van' },
+                        { num: 7, text: '(Tú) ................. música clásica.', answer: 'escuchas' },
+                        { num: 8, text: '(Nosotras) ................. juntas al cine.', answer: 'vamos' }
+                    ]
+                }
+            ],
+            'Imperativo': [
+                {
+                    id: 8,
+                    title: 'Completa con l\'imperativo affermativo',
+                    instructions: 'Coniuga i verbi all\'imperativo affermativo',
+                    items: [
+                        { num: 1, text: '(Tú) ................. el libro! (leer)', answer: 'lee' },
+                        { num: 2, text: '(Ustedes) ................. aquí! (sentarse)', answer: 'siéntense' },
+                        { num: 3, text: '(Nosotros) ................. a bailar! (ir)', answer: 'vamos' },
+                        { num: 4, text: '(Tú) ................. paciencia. (tener)', answer: 'ten' },
+                        { num: 5, text: '(Ustedes) ................. me la verdad. (decir)', answer: 'díganme' },
+                        { num: 6, text: '(Tú) ................. eso! (hacer)', answer: 'haz' }
+                    ]
+                }
+            ],
+            'Congiuntivo Presente': [
+                {
+                    id: 9,
+                    title: 'Completa con il congiuntivo presente',
+                    instructions: 'Coniuga i verbi al congiuntivo presente',
+                    items: [
+                        { num: 1, text: 'Espero que (venir) pronto.', answer: 'venga' },
+                        { num: 2, text: 'Quiero que (estudiar) más.', answer: 'estudies' },
+                        { num: 3, text: 'Es posible que (llover) mañana.', answer: 'llueva' },
+                        { num: 4, text: 'Nos pide que (hacer) el trabajo.', answer: 'hagamos' },
+                        { num: 5, text: 'Dudo que (saber) la respuesta.', answer: 'sepa' },
+                        { num: 6, text: 'Ojalá que (ser) verdad.', answer: 'sea' },
+                        { num: 7, text: 'Le recomiendo que (hablar) con el director.', answer: 'hable' }
+                    ]
+                }
+            ],
+            'Comparativi e Superlativi': [
+                {
+                    id: 10,
+                    title: 'Completa le frasi comparative e superlative',
+                    instructions: 'Usa comparativi e superlativi correttamente',
+                    items: [
+                        { num: 1, text: 'Este libro es ................... que el otro.', answer: 'más interesante' },
+                        { num: 2, text: 'María es ................... alumna de la clase.', answer: 'la mejor' },
+                        { num: 3, text: 'El coche rojo es ................... como el azul.', answer: 'tan rápido' },
+                        { num: 4, text: 'Barcelona es ................... Madrid.', answer: 'más bonita que' },
+                        { num: 5, text: 'Este es el edificio ................... de la ciudad.', answer: 'más alto' },
+                        { num: 6, text: 'No tengo ................... dinero como tú.', answer: 'tanto' }
+                    ]
+                }
+            ]
+        };
+
+        let timeLeft = 30 * 60;
+        let responses = {};
+        let showAnswers = false;
+        let timerInterval = null;
+        let examStarted = false;
+        let examEnded = false;
+
+        function startExam() {
+            examStarted = true;
+            document.getElementById('startScreen').style.display = 'none';
+            document.getElementById('examScreen').style.display = 'block';
+            renderExercises();
+            startTimer();
+        }
+
+        function renderExercises() {
+            const container = document.getElementById('themesContainer');
+            container.innerHTML = '';
+
+            Object.entries(exercises).forEach(([ themeName, exerciseList ], themeIndex) => {
+                const themeDiv = document.createElement('div');
+                themeDiv.className = 'theme' + (themeIndex === 0 ? ' expanded' : '');
+                
+                const headerDiv = document.createElement('div');
+                headerDiv.className = 'theme-header';
+                headerDiv.onclick = () => themeDiv.classList.toggle('expanded');
+                headerDiv.innerHTML = `
+                    <h2>${themeName}</h2>
+                    <span class="icon">▼</span>
+                `;
+
+                const contentDiv = document.createElement('div');
+                contentDiv.className = 'theme-content';
+
+                exerciseList.forEach(exercise => {
+                    const exerciseDiv = document.createElement('div');
+                    exerciseDiv.className = 'exercise';
+                    
+                    let itemsHTML = '<div class="exercise-items">';
+                    exercise.items.forEach(item => {
+                        const inputId = `input-${exercise.id}-${item.num}`;
+                        itemsHTML += `
+                            <div class="item">
+                                <label for="${inputId}" class="item-label">
+                                    <span class="item-number">${item.num}.</span> ${item.text}
+                                </label>
+                                <input 
+                                    type="text" 
+                                    id="${inputId}" 
+                                    class="item-input"
+                                    oninput="updateProgress()"
+                                    placeholder="La tua risposta..."
+                                />
+                                <div class="item-answer">
+                                    <strong>Risposta:</strong> ${item.answer}
+                                </div>
+                            </div>
+                        `;
+                    });
+                    itemsHTML += '</div>';
+
+                    exerciseDiv.innerHTML = `
+                        <div class="exercise-title">${exercise.title}</div>
+                        <div class="exercise-instructions">${exercise.instructions}</div>
+                        ${itemsHTML}
+                    `;
+
+                    contentDiv.appendChild(exerciseDiv);
+                });
+
+                themeDiv.appendChild(headerDiv);
+                themeDiv.appendChild(contentDiv);
+                container.appendChild(themeDiv);
+            });
+
+            updateProgress();
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                timeLeft--;
+
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                const display = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                const timerElement = document.getElementById('timerDisplay');
+                timerElement.textContent = display;
+
+                if (timeLeft <= 120) {
+                    timerElement.classList.add('danger');
+                    timerElement.classList.remove('warning');
+                } else if (timeLeft <= 300) {
+                    timerElement.classList.add('warning');
+                    timerElement.classList.remove('danger');
+                } else {
+                    timerElement.classList.remove('warning', 'danger');
+                }
+
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    endExam();
+                }
+            }, 1000);
+        }
+
+        function toggleAllAnswers() {
+            showAnswers = !showAnswers;
+            const btn = document.getElementById('toggleAnswersBtn');
+            const answers = document.querySelectorAll('.item-answer');
+
+            if (showAnswers) {
+                btn.classList.add('active');
+                btn.textContent = '✓ Nascondi risposte';
+                answers.forEach(ans => ans.classList.add('visible'));
+            } else {
+                btn.classList.remove('active');
+                btn.textContent = 'Mostra risposte';
+                answers.forEach(ans => ans.classList.remove('visible'));
+            }
+        }
+
+        function updateProgress() {
+            const inputs = document.querySelectorAll('.item-input');
+            let answered = 0;
+            inputs.forEach(input => {
+                if (input.value.trim()) answered++;
+            });
+
+            document.getElementById('answeredCount').textContent = answered;
+            document.getElementById('totalCount').textContent = inputs.length;
+        }
+
+        function endExam() {
+            if (examEnded) return;
+            examEnded = true;
+
+            const inputs = document.querySelectorAll('.item-input');
+            let answered = 0;
+            inputs.forEach(input => {
+                if (input.value.trim()) answered++;
+            });
+
+            document.getElementById('finalScore').textContent = `${answered}/${inputs.length}`;
+            document.getElementById('modalOverlay').classList.add('visible');
+            document.getElementById('examScreen').style.opacity = '0.5';
+            document.getElementById('examScreen').style.pointerEvents = 'none';
+        }
+
+        function countTotalExercises() {
+            let count = 0;
+            Object.values(exercises).forEach(themeExercises => {
+                themeExercises.forEach(exercise => {
+                    count += exercise.items.length;
+                });
+            });
+            return count;
+        }
+
+        document.getElementById('totalExercisesLabel').textContent = countTotalExercises();
+        document.getElementById('totalCount').textContent = countTotalExercises();
+    </script>
+</body>
+</html>
