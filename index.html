@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulazione Esame Spagnolo - 30 minuti</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-bg: #ffffff;
+            --secondary-bg: #f5f5f5;
+            --text-primary: #1a1a1a;
+            --text-secondary: #666666;
+            --border-color: #e0e0e0;
+            --accent-info: #2563eb;
+            --accent-success: #10b981;
+            --accent-warning: #f59e0b;
+            --accent-danger: #ef4444;
+            --radius: 8px;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--secondary-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            padding: 1rem;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* ===== SCHERMATA INIZIALE ===== */
+        .start-screen {
+            text-align: center;
+            padding: 3rem 2rem;
+            background: var(--primary-bg);
+            border-radius: var(--radius);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .start-screen h1 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .start-screen p {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            font-size: 1.05rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--secondary-bg);
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            border: 1px solid var(--border-color);
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            font-size: 1.75rem;
+            font-weight: 600;
+        }
+
+        .btn-start {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            background: var(--accent-info);
+            color: white;
+            border: none;
+            border-radius: var(--radius);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-start:hover {
+            background: #1d4ed8;
+        }
+
+        /* ===== SCHERMATA ESAME ===== */
+        .exam-screen {
+            display: none;
+        }
+
+        .exam-header {
+            background: var(--primary-bg);
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .timer {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .timer-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            font-variant-numeric: tabular-nums;
+            color: var(--accent-info);
+        }
+
+        .timer-value.warning {
+            color: var(--accent-warning);
+        }
+
+        .timer-value.danger {
+            color: var(--accent-danger);
+        }
+
+        .timer-label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        .progress-info {
+            text-align: center;
+        }
+
+        .progress-label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.25rem;
+        }
+
+        .progress-value {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .btn-toggle-answers {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border-color);
+            background: var(--primary-bg);
+            border-radius: var(--radius);
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .btn-toggle-answers:hover {
+            background: var(--secondary-bg);
+        }
+
+        .btn-toggle-answers.active {
+            background: var(--accent-info);
+            color: white;
+            border-color: var(--accent-info);
+        }
+
+        /* ===== TEMI E ESERCIZI ===== */
+        .theme {
+            margin-bottom: 1.5rem;
+        }
+
+        .theme-header {
+            background: var(--secondary-bg);
+            padding: 1rem;
+            border-radius: var(--radius);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid var(--border-color);
+            transition: all 0.2s;
+            user-select: none;
+        }
+
+        .theme-header:hover {
+            background: #efefef;
+        }
+
+        .theme-header h2 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .theme-header .icon {
+            font-size: 1.25rem;
+            transition: transform 0.2s;
+        }
+
+        .theme.expanded .theme-header .icon {
+            transform: rotate(180deg);
+        }
+
+        .theme-content {
+            display: none;
+            padding-top: 0.5rem;
+        }
+
+        .theme.expanded .theme-content {
+            display: block;
+        }
+
+        .exercise {
+            background: var(--primary-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        .exercise-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .exercise-instructions {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            font-style: italic;
+        }
+
+        .exercise-items {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .item {
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .item-label {
+            font-size: 0.95rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .item-number {
+            font-weight: 600;
+        }
+
+        .item-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            font-size: 0.95rem;
+            font-family: inherit;
+            transition: border-color 0.2s;
+        }
+
+        .item-input:focus {
+            outline: none;
+            border-color: var(--accent-info);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .item-answer {
+            margin-top: 0.5rem;
+            padding: 0.75rem;
+            background: #ecfdf5;
+            border-left: 3px solid var(--accent-success);
+            border-radius: 0 var(--radius) var(--radius) 0;
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        .item-answer.visible {
+            display: block;
+        }
+
+        .item-answer strong {
+            color: var(--accent-success);
+        }
+
+        /* ===== MODAL FINE TEMPO ===== */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal-overlay.visible {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--primary-bg);
+            border-radius: var(--radius);
+            padding: 2rem;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        .modal h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent-warning);
+        }
+
+        .modal p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .modal .score {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent-info);
+            margin-bottom: 1rem;
+        }
+
+        .btn-restart {
+            padding: 0.75rem 1.5rem;
+            background: var(--accent-info);
+            color: white;
+            border: none;
+            border-radius: var(--radius);
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn-restart:hover {
+            background: #1d4ed8;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .exam-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .timer-value {
+                font-size: 2rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Dark mode support */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --primary-bg: #1e1e1e;
+                --secondary-bg: #2a2a2a;
+                --text-primary: #e0e0e0;
+                --text-secondary: #999999;
+                --border-color: #444444;
+            }
+
+            .item-answer {
+                background: #064e3b;
+                color: #d1fae5;
+            }
+
+            .item-answer strong {
+                color: #6ee7b7;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- SCHERMATA INIZIALE -->
+        <div id="startScreen" class="start-screen">
+            <h1>📚 Simulazione d'Esame</h1>
+            <p>Prova la tua preparazione di spagnolo in 30 minuti</p>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Tempo totale</div>
+                    <div class="stat-value">30 min</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Esercizi totali</div>
+                    <div class="stat-value" id="totalExercisesLabel">18</div>
+                </div>
+            </div>
+
+            <button class="btn-start" onclick="startExam()">Inizia l'esame</button>
+        </div>
+
+        <!-- SCHERMATA ESAME -->
+        <div id="examScreen" class="exam-screen">
+            <!-- Header con Timer -->
+            <div class="exam-header">
+                <div class="timer">
+                    <div>
+                        <div class="timer-label">⏱️ Tempo rimanente</div>
+                        <div class="timer-value" id="timerDisplay">30:00</div>
+                    </div>
+                </div>
+
+                <div class="progress-info">
+                    <div class="progress-label">Progresso</div>
+                    <div class="progress-value"><span id="answeredCount">0</span>/<span id="totalCount">18</span></div>
+                </div>
+
+                <button class="btn-toggle-answers" id="toggleAnswersBtn" onclick="toggleAllAnswers()">
+                    Mostra risposte
+                </button>
+            </div>
+
+            <!-- Esercizi per tema -->
+            <div id="themesContainer"></div>
+        </div>
+    </div>
+
+    <!-- Modal fine tempo -->
+    <div id="modalOverlay" class="modal-overlay">
+        <div class="modal">
+            <h2>⏰ Tempo scaduto!</h2>
+            <p>La simulazione è terminata</p>
+            <div class="score" id="finalScore">0/18</div>
+            <button class="btn-restart" onclick="location.reload()">Ricomincia</button>
+        </div>
+    </div>
+
+    <script>
+        // ===== DATI ESERCIZI =====
+        const exercises = {
+            'Verbi al futuro': [
+                {
+                    id: 1,
+                    title: 'Completa con il verbo al futuro semplice',
+                    instructions: 'Inserisci il verbo corretto in futuro semplice (poder, saber, venir, caber, decir, salir, hacer, poner, tener, valer, haber)',
+                    items: [
+                        { num: 1, text: 'En esta clase no .................... más de treinta alumnos.', answer: 'cabrán' },
+                        { num: 2, text: 'Solo si hablamos con él, .................... la verdad.', answer: 'sabremos' },
+                        { num: 3, text: 'Perdóname, te prometo que la próxima vez (yo) .................... más interés.', answer: 'pondré' },
+                        { num: 4, text: '(Yo) Hoy .................... más tarde del trabajo.', answer: 'saldré' },
+                        { num: 5, text: '¿Por qué no vienes? .................... mucha gente conocida.', answer: 'Habrá' }
+                    ]
+                }
+            ],
+            'Preposizioni': [
+                {
+                    id: 2,
+                    title: 'Completa con la preposizione corretta',
+                    instructions: 'Scegli la preposizione adatta (a, en, por, para)',
+                    items: [
+                        { num: 1, text: 'La biblioteca está ................... el centro.', answer: 'en' },
+                        { num: 2, text: 'Voy ................... el centro. ¿Quieres venir conmigo?', answer: 'al' },
+                        { num: 3, text: 'No salimos ................... la lluvia.', answer: 'por' },
+                        { num: 4, text: 'Voy a dormir un rato ................... descansar.', answer: 'para' },
+                        { num: 5, text: 'Tengo que hacer los deberes ................... mañana.', answer: 'para' },
+                        { num: 6, text: 'Mañana ................... la mañana voy al taller.', answer: 'por' }
+                    ]
+                }
+            ],
+            'Congiuntivo vs Indicativo': [
+                {
+                    id: 3,
+                    title: 'Scegli il verbo nella forma corretta',
+                    instructions: 'Decidi se usare l\'indicativo o il congiuntivo',
+                    items: [
+                        { num: 1, text: 'Creo que (estar/está) en casa ahora.', answer: 'está' },
+                        { num: 2, text: 'No creo que (ser/sea) posible.', answer: 'sea' },
+                        { num: 3, text: 'Es obvio que (llover/llueve) mañana.', answer: 'llueve' },
+                        { num: 4, text: 'Es imprescindibile que (venir/vengas) a la reunione.', answer: 'vengas' },
+                        { num: 5, text: 'Supongo que (tener/tiene) razón.', answer: 'tiene' },
+                        { num: 6, text: 'No estoy seguro de que (hablar/hable) español.', answer: 'hable' }
+                    ]
+                }
+            ],
+            'Lessico Professionale': [
+                {
+                    id: 4,
+                    title: 'Completa con la parola giusta',
+                    instructions: 'Inserisci la professione o la parola corretta',
+                    items: [
+                        { num: 1, text: 'Persona che cura i malati: un ....................', answer: 'médico' },
+                        { num: 2, text: 'Persona che difende in tribunale: un ....................', answer: 'abogado' },
+                        { num: 3, text: 'Persona che progetta edifici: un ....................', answer: 'arquitecto' },
+                        { num: 4, text: 'Persona che scrive su un giornale: un ....................', answer: 'periodista' },
+                        { num: 5, text: 'Persona che insegna a scuola: un ....................', answer: 'profesor' }
+                    ]
+                }
+            ]
+        };
+
+        // ===== STATE =====
+        let timeLeft = 30 * 60; // 30 minuti in secondi
+        let responses = {};
+        let showAnswers = false;
+        let timerInterval = null;
+        let examStarted = false;
+        let examEnded = false;
+
+        // ===== FUNZIONI =====
+        function startExam() {
+            examStarted = true;
+            document.getElementById('startScreen').style.display = 'none';
+            document.getElementById('examScreen').style.display = 'block';
+            
+            renderExercises();
+            startTimer();
+        }
+
+        function renderExercises() {
+            const container = document.getElementById('themesContainer');
+            container.innerHTML = '';
+
+            Object.entries(exercises).forEach(([ themeName, exerciseList ], themeIndex) => {
+                const themeDiv = document.createElement('div');
+                themeDiv.className = 'theme' + (themeIndex === 0 ? ' expanded' : '');
+                
+                const headerDiv = document.createElement('div');
+                headerDiv.className = 'theme-header';
+                headerDiv.onclick = () => themeDiv.classList.toggle('expanded');
+                headerDiv.innerHTML = `
+                    <h2>${themeName}</h2>
+                    <span class="icon">▼</span>
+                `;
+
+                const contentDiv = document.createElement('div');
+                contentDiv.className = 'theme-content';
+
+                exerciseList.forEach(exercise => {
+                    const exerciseDiv = document.createElement('div');
+                    exerciseDiv.className = 'exercise';
+                    
+                    let itemsHTML = '<div class="exercise-items">';
+                    exercise.items.forEach(item => {
+                        const inputId = `input-${exercise.id}-${item.num}`;
+                        itemsHTML += `
+                            <div class="item">
+                                <label for="${inputId}" class="item-label">
+                                    <span class="item-number">${item.num}.</span> ${item.text}
+                                </label>
+                                <input 
+                                    type="text" 
+                                    id="${inputId}" 
+                                    class="item-input"
+                                    oninput="updateProgress()"
+                                    placeholder="La tua risposta..."
+                                />
+                                <div class="item-answer">
+                                    <strong>Risposta:</strong> ${item.answer}
+                                </div>
+                            </div>
+                        `;
+                    });
+                    itemsHTML += '</div>';
+
+                    exerciseDiv.innerHTML = `
+                        <div class="exercise-title">${exercise.title}</div>
+                        <div class="exercise-instructions">${exercise.instructions}</div>
+                        ${itemsHTML}
+                    `;
+
+                    contentDiv.appendChild(exerciseDiv);
+                });
+
+                themeDiv.appendChild(headerDiv);
+                themeDiv.appendChild(contentDiv);
+                container.appendChild(themeDiv);
+            });
+
+            updateProgress();
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                timeLeft--;
+
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                const display = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                const timerElement = document.getElementById('timerDisplay');
+                timerElement.textContent = display;
+
+                // Cambia colore
+                if (timeLeft <= 120) {
+                    timerElement.classList.add('danger');
+                    timerElement.classList.remove('warning');
+                } else if (timeLeft <= 300) {
+                    timerElement.classList.add('warning');
+                    timerElement.classList.remove('danger');
+                } else {
+                    timerElement.classList.remove('warning', 'danger');
+                }
+
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    endExam();
+                }
+            }, 1000);
+        }
+
+        function toggleAllAnswers() {
+            showAnswers = !showAnswers;
+            const btn = document.getElementById('toggleAnswersBtn');
+            const answers = document.querySelectorAll('.item-answer');
+
+            if (showAnswers) {
+                btn.classList.add('active');
+                btn.textContent = '✓ Nascondi risposte';
+                answers.forEach(ans => ans.classList.add('visible'));
+            } else {
+                btn.classList.remove('active');
+                btn.textContent = 'Mostra risposte';
+                answers.forEach(ans => ans.classList.remove('visible'));
+            }
+        }
+
+        function updateProgress() {
+            const inputs = document.querySelectorAll('.item-input');
+            let answered = 0;
+            inputs.forEach(input => {
+                if (input.value.trim()) answered++;
+            });
+
+            document.getElementById('answeredCount').textContent = answered;
+            document.getElementById('totalCount').textContent = inputs.length;
+        }
+
+        function endExam() {
+            if (examEnded) return;
+            examEnded = true;
+
+            const inputs = document.querySelectorAll('.item-input');
+            let answered = 0;
+            inputs.forEach(input => {
+                if (input.value.trim()) answered++;
+            });
+
+            document.getElementById('finalScore').textContent = `${answered}/${inputs.length}`;
+            document.getElementById('modalOverlay').classList.add('visible');
+            document.getElementById('examScreen').style.opacity = '0.5';
+            document.getElementById('examScreen').style.pointerEvents = 'none';
+        }
+
+        // Conteggio iniziale esercizi
+        function countTotalExercises() {
+            let count = 0;
+            Object.values(exercises).forEach(themeExercises => {
+                themeExercises.forEach(exercise => {
+                    count += exercise.items.length;
+                });
+            });
+            return count;
+        }
+
+        // Inizializzazione
+        document.getElementById('totalExercisesLabel').textContent = countTotalExercises();
+        document.getElementById('totalCount').textContent = countTotalExercises();
+    </script>
+</body>
+</html>
