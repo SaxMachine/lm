@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prueba Escrita Informatizada - Spagnolo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-bg: #ffffff;
+            --secondary-bg: #f5f1e8;
+            --text-primary: #2c2620;
+            --text-secondary: #6b6360;
+            --border-color: #d4af85;
+            --accent-primary: #7a5c38;
+            --accent-secondary: #6b8e5f;
+            --accent-warning: #d4a574;
+            --accent-danger: #c85a54;
+            --radius: 8px;
+        }
+
+        body {
+            font-family: 'Cormorant Garamond', 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #f5f1e8 0%, #e8e0d5 100%);
+            color: var(--text-primary);
+            line-height: 1.8;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: var(--primary-bg);
+            border-radius: var(--radius);
+            box-shadow: 0 8px 32px rgba(122, 92, 56, 0.12);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--accent-primary) 0%, #6b5130 100%);
+            color: var(--secondary-bg);
+            padding: 2.5rem 2rem;
+            text-align: center;
+            border-bottom: 3px solid var(--border-color);
+        }
+
+        .header h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .header p {
+            font-size: 1rem;
+            opacity: 0.95;
+            font-weight: 300;
+            letter-spacing: 0.3px;
+        }
+
+        .test-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            padding: 1.5rem;
+            background: var(--secondary-bg);
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .info-item {
+            text-align: center;
+            padding: 0.5rem;
+        }
+
+        .info-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.3rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        .info-value {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--accent-primary);
+        }
+
+        .content {
+            padding: 2.5rem;
+        }
+
+        .exam-header {
+            background: var(--secondary-bg);
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border-color);
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .progress-info {
+            text-align: center;
+        }
+
+        .progress-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.25rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            font-weight: 600;
+        }
+
+        .progress-value {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--accent-primary);
+        }
+
+        .btn-toggle-answers {
+            padding: 0.65rem 1.2rem;
+            border: 2px solid var(--accent-primary);
+            background: transparent;
+            color: var(--accent-primary);
+            border-radius: var(--radius);
+            cursor: pointer;
+            font-weight: 600;
+            font-family: 'DM Sans', sans-serif;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .btn-toggle-answers:hover {
+            background: var(--accent-primary);
+            color: var(--secondary-bg);
+        }
+
+        .btn-toggle-answers.active {
+            background: var(--accent-primary);
+            color: var(--secondary-bg);
+        }
+
+        .task {
+            margin-bottom: 3rem;
+            page-break-inside: avoid;
+        }
+
+        .task-header {
+            border-bottom: 3px solid var(--border-color);
+            padding-bottom: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .task-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: var(--accent-primary);
+            margin-bottom: 0.3rem;
+            letter-spacing: 0.3px;
+        }
+
+        .task-description {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        .text-item {
+            background: var(--secondary-bg);
+            padding: 1.4rem;
+            border-radius: var(--radius);
+            border-left: 4px solid var(--accent-secondary);
+            margin-bottom: 1.2rem;
+            line-height: 1.95;
+            page-break-inside: avoid;
+        }
+
+        .text-item-num {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 700;
+            color: var(--accent-primary);
+            margin-bottom: 0.7rem;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .text-item p {
+            margin-bottom: 0.8rem;
+        }
+
+        .text-item p:last-child {
+            margin-bottom: 0;
+        }
+
+        .cloze-blank {
+            display: inline-block;
+            min-width: 110px;
+            height: 28px;
+            border: none;
+            border-bottom: 2px solid var(--accent-primary);
+            background: transparent;
+            font-size: 0.95rem;
+            padding: 4px 8px;
+            margin: 0 2px;
+            font-weight: 500;
+            vertical-align: bottom;
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+
+        .cloze-blank:focus {
+            outline: none;
+            border-bottom-color: var(--accent-secondary);
+            box-shadow: 0 2px 0 var(--accent-secondary);
+        }
+
+        .cloze-blank.correct {
+            border-bottom-color: var(--accent-secondary);
+            background: rgba(107, 142, 95, 0.08);
+        }
+
+        .cloze-blank.incorrect {
+            border-bottom-color: var(--accent-danger);
+            background: rgba(200, 90, 84, 0.08);
+        }
+
+        .answer-key {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+            display: none;
+        }
+
+        .answer-key.visible {
+            display: block;
+            padding: 0.75rem;
+            background: rgba(107, 142, 95, 0.12);
+            border-left: 3px solid var(--accent-secondary);
+            border-radius: 0 var(--radius) var(--radius) 0;
+        }
+
+        .answer-key strong {
+            color: var(--accent-secondary);
+        }
+
+        .controls {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-color);
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.85rem 1.8rem;
+            border: none;
+            border-radius: var(--radius);
+            font-family: 'DM Sans', -apple-system, sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            letter-spacing: 0.3px;
+        }
+
+        .btn-submit {
+            background: var(--accent-primary);
+            color: var(--secondary-bg);
+            box-shadow: 0 4px 12px rgba(122, 92, 56, 0.2);
+        }
+
+        .btn-submit:hover {
+            background: #6b5130;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(122, 92, 56, 0.3);
+        }
+
+        .results {
+            background: var(--secondary-bg);
+            padding: 2rem;
+            border-radius: var(--radius);
+            border: 2px solid var(--border-color);
+            text-align: center;
+            display: none;
+            margin-top: 2rem;
+        }
+
+        .results.visible {
+            display: block;
+        }
+
+        .results h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent-primary);
+            letter-spacing: 0.3px;
+        }
+
+        .score {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent-secondary);
+            margin: 1.5rem 0;
+            letter-spacing: 1px;
+        }
+
+        .score-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .score-item {
+            background: var(--primary-bg);
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            border-left: 4px solid var(--accent-secondary);
+        }
+
+        .score-item-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            font-weight: 600;
+        }
+
+        .score-item-value {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--accent-primary);
+        }
+
+        .footer {
+            background: var(--secondary-bg);
+            padding: 1.5rem;
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            border-top: 1px solid var(--border-color);
+        }
+
+        .footer p {
+            margin: 0.3rem 0;
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            .container {
+                box-shadow: none;
+            }
+            .exam-header, .controls, .footer {
+                display: none;
+            }
+            .text-item {
+                page-break-inside: avoid;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                padding: 1.5rem;
+            }
+            .header h1 {
+                font-size: 1.6rem;
+            }
+            .cloze-blank {
+                min-width: 80px;
+                font-size: 0.85rem;
+            }
+            .score-details {
+                grid-template-columns: 1fr;
+            }
+            .exam-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Prueba Escrita Informatizada</h1>
+            <p>Comprensión Lectora • Habilidades Léxicas • Elaboración de Ideas</p>
+        </div>
+
+        <div class="test-info">
+            <div class="info-item">
+                <div class="info-label">Duración</div>
+                <div class="info-value">90 min</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">Puntuación Total</div>
+                <div class="info-value">100</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">Tareas</div>
+                <div class="info-value">2</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">Total Espacios</div>
+                <div class="info-value" id="totalSpaces">60+</div>
+            </div>
+        </div>
+
+        <div class="content">
+            <!-- EXAM HEADER CON PROGRESSO E BOTTONE RISPOSTE -->
+            <div class="exam-header">
+                <div class="progress-info">
+                    <div class="progress-label">Progresso</div>
+                    <div class="progress-value"><span id="answeredCount">0</span>/<span id="totalCount">60</span></div>
+                </div>
+
+                <button class="btn-toggle-answers" id="toggleAnswersBtn" onclick="toggleAllAnswers()">
+                    Mostrar respuestas
+                </button>
+            </div>
+
+            <!-- TAREA 1 -->
+            <div class="task">
+                <div class="task-header">
+                    <div class="task-title">Tarea 1: Cloze de Gramática</div>
+                    <div class="task-description">
+                        Completa los espacios en blanco con la forma verbal o estructura gramatical correcta.
+                        (50 puntos)
+                    </div>
+                </div>
+
+                <div id="grammarTexts"></div>
+            </div>
+
+            <!-- TAREA 2 -->
+            <div class="task">
+                <div class="task-header">
+                    <div class="task-title">Tarea 2: Cloze de Terminología Sectorial</div>
+                    <div class="task-description">
+                        Completa los espacios en blanco con la terminología profesional correcta del ámbito empresarial.
+                        (50 puntos)
+                    </div>
+                </div>
+
+                <div id="terminologyTexts"></div>
+            </div>
+
+            <!-- CONTROLES -->
+            <div class="controls">
+                <button class="btn btn-submit" onclick="submitTest()">
+                    Enviar respuestas
+                </button>
+            </div>
+
+            <!-- RESULTADOS -->
+            <div class="results" id="results">
+                <h3>Resultados de la Prueba</h3>
+                <div class="score" id="totalScore">-</div>
+                <div class="score-details">
+                    <div class="score-item">
+                        <div class="score-item-label">Tarea 1 (Gramática)</div>
+                        <div class="score-item-value"><span id="scoreT1">-</span>/50</div>
+                    </div>
+                    <div class="score-item">
+                        <div class="score-item-label">Tarea 2 (Terminología)</div>
+                        <div class="score-item-value"><span id="scoreT2">-</span>/50</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>© Prueba diseñada para la evaluación de comprensión y habilidades lingüísticas en español profesional</p>
+            <p>Duración máxima: 90 minutos | Puntuación mínima de aprobación: 60/100</p>
+        </div>
+    </div>
+
+    <script>
+        // TAREA 1: TEXTOS Y RESPUESTAS - GRAMÁTICA
+        const grammarExercises = [
+            {
+                text: "El mundo empresarial <input type='text' class='cloze-blank' placeholder='(verbo)'> constantemente. Las nuevas tecnologías <input type='text' class='cloze-blank' placeholder='(verbo)'> a las empresas a <input type='text' class='cloze-blank' placeholder='(infinitivo)'> sus estrategias.",
+                answers: ['cambia', 'obligan', 'adaptar'],
+                answerText: 'cambia, obligan, adaptar'
+            },
+            {
+                text: "Si yo <input type='text' class='cloze-blank' placeholder='(condicional)'> un manager exitoso, <input type='text' class='cloze-blank' placeholder='(verbo)'> en la capacitación de mi equipo. Es fundamental que los empleados <input type='text' class='cloze-blank' placeholder='(subjuntivo)'> nuevas competencias.",
+                answers: ['fuera', 'invertiría', 'desarrollen'],
+                answerText: 'fuera, invertiría, desarrollen'
+            },
+            {
+                text: "Cuando <input type='text' class='cloze-blank' placeholder='(subjuntivo)'> el proyecto, <input type='text' class='cloze-blank' placeholder='(futuro)'> el éxito con todo el equipo. Aunque el trabajo <input type='text' class='cloze-blank' placeholder='(subjuntivo)'> intenso, los resultados <input type='text' class='cloze-blank' placeholder='(indicativo)'> la pena.",
+                answers: ['termine', 'celebraremos', 'sea', 'valen'],
+                answerText: 'termine, celebraremos, sea, valen'
+            },
+            {
+                text: "No creo que la inteligencia artificial <input type='text' class='cloze-blank' placeholder='(subjuntivo)'> completamente el trabajo humano. Sin embargo, es posible que <input type='text' class='cloze-blank' placeholder='(subjuntivo)'> muchas profesiones.",
+                answers: ['reemplace', 'transforme'],
+                answerText: 'reemplace, transforme'
+            },
+            {
+                text: "Los expertos sugieren que los emprendedores <input type='text' class='cloze-blank' placeholder='(subjuntivo)'> una visión clara y que <input type='text' class='cloze-blank' placeholder='(subjuntivo)'> ante las dificultades. Si <input type='text' class='cloze-blank' placeholder='(presente)'> triunfar, <input type='text' class='cloze-blank' placeholder='(verbo)'> estar preparados para el fracaso.",
+                answers: ['tengan', 'persistan', 'quieren', 'deben'],
+                answerText: 'tengan, persistan, quieren, deben'
+            },
+            {
+                text: "Las empresas que <input type='text' class='cloze-blank' placeholder='(verbo)'> en tecnología <input type='text' class='cloze-blank' placeholder='(verbo)'> más competitivas. Aunque la inversión <input type='text' class='cloze-blank' placeholder='(subjuntivo)'> significativa, el retorno <input type='text' class='cloze-blank' placeholder='(indicativo)'> considerable.",
+                answers: ['invierten', 'son', 'sea', 'es'],
+                answerText: 'invierten, son, sea, es'
+            },
+            {
+                text: "Es importante que los trabajadores <input type='text' class='cloze-blank' placeholder='(subjuntivo)'> un equilibrio entre vida personal y profesional. Si <input type='text' class='cloze-blank' placeholder='(verbo)'> este equilibrio, <input type='text' class='cloze-blank' placeholder='(futuro)'> problemas de estrés.",
+                answers: ['mantengan', 'pierden', 'surgirán'],
+                answerText: 'mantengan, pierden, surgirán'
+            },
+            {
+                text: "Después de que <input type='text' class='cloze-blank' placeholder='(subjuntivo)'> la reunión, <input type='text' class='cloze-blank' placeholder='(futuro)'> las conclusiones a todo el equipo. Aunque algunas decisiones <input type='text' class='cloze-blank' placeholder='(subjuntivo)'> controvertidas, <input type='text' class='cloze-blank' placeholder='(indicativo)'> necesarias.",
+                answers: ['termine', 'comunicaré', 'sean', 'eran'],
+                answerText: 'termine, comunicaré, sean, eran'
+            },
+            {
+                text: "Los clientes <input type='text' class='cloze-blank' placeholder='(verbo)'> que el servicio <input type='text' class='cloze-blank' placeholder='(subjuntivo)'> de mejor calidad. Es evidente que <input type='text' class='cloze-blank' placeholder='(subjuntivo)'> satisfechos con nuestros productos.",
+                answers: ['demandan', 'sea', 'estén'],
+                answerText: 'demandan, sea, estén'
+            },
+            {
+                text: "Cuando <input type='text' class='cloze-blank' placeholder='(verbo)'> las vacaciones, muchos empleados <input type='text' class='cloze-blank' placeholder='(verbo)'> a descansar. Es recomendable que <input type='text' class='cloze-blank' placeholder='(subjuntivo)'> completamente del trabajo.",
+                answers: ['llegan', 'necesitan', 'desconecten'],
+                answerText: 'llegan, necesitan, desconecten'
+            }
+        ];
+
+        // TAREA 2: TEXTOS Y RISPOSTE - TERMINOLOGIA
+        const terminologyExercises = [
+            {
+                text: "La estrategia de <input type='text' class='cloze-blank' placeholder='(noun)'> digital se basa en el uso de <input type='text' class='cloze-blank' placeholder='(plural noun)'> y el <input type='text' class='cloze-blank' placeholder='(noun)'> para alcanzar <input type='text' class='cloze-blank' placeholder='(noun)'> con los clientes.",
+                answers: ['marketing', 'redes sociales', 'email marketing', 'engagement'],
+                answerText: 'marketing, redes sociales, email marketing, engagement'
+            },
+            {
+                text: "El <input type='text' class='cloze-blank' placeholder='(acronym)'> es un indicador clave para medir la eficacia de una <input type='text' class='cloze-blank' placeholder='(noun phrase)'> . Las empresas analizan constantemente el <input type='text' class='cloze-blank' placeholder='(noun)'> del consumidor.",
+                answers: ['ROI', 'campaña publicitaria', 'comportamiento'],
+                answerText: 'ROI, campaña publicitaria, comportamiento'
+            },
+            {
+                text: "La <input type='text' class='cloze-blank' placeholder='(noun)'> de personal es crucial para el éxito organizacional. Los <input type='text' class='cloze-blank' placeholder='(plural noun)'> deben buscar candidatos con <input type='text' class='cloze-blank' placeholder='(noun phrase)'> como liderazgo y comunicación.",
+                answers: ['selección', 'reclutadores', 'competencias blandas'],
+                answerText: 'selección, reclutadores, competencias blandas'
+            },
+            {
+                text: "El <input type='text' class='cloze-blank' placeholder='(noun)'> se refiere a la posibilidad de trabajar desde casa. Esta modalidad de trabajo <input type='text' class='cloze-blank' placeholder='(adjective)'> ofrece ventajas como mayor <input type='text' class='cloze-blank' placeholder='(noun)'> y reducción de costos.",
+                answers: ['teletrabajo', 'remoto', 'flexibilidad'],
+                answerText: 'teletrabajo, remoto, flexibilidad'
+            },
+            {
+                text: "Una <input type='text' class='cloze-blank' placeholder='(noun)'> exitosa requiere una clara <input type='text' class='cloze-blank' placeholder='(noun)'> de mercado y una <input type='text' class='cloze-blank' placeholder='(noun phrase)'> única. El <input type='text' class='cloze-blank' placeholder='(noun)'> debe estar alineado con las necesidades del público.",
+                answers: ['franquicia', 'segmentación', 'propuesta de valor', 'posicionamiento'],
+                answerText: 'franquicia, segmentación, propuesta de valor, posicionamiento'
+            },
+            {
+                text: "La <input type='text' class='cloze-blank' placeholder='(noun phrase)'> es una herramienta fundamental en el <input type='text' class='cloze-blank' placeholder='(noun)'> . Las organizaciones utilizan <input type='text' class='cloze-blank' placeholder='(noun)'> para analizar información de clientes.",
+                answers: ['base de datos', 'marketing digital', 'analytics'],
+                answerText: 'base de datos, marketing digital, analytics'
+            },
+            {
+                text: "El <input type='text' class='cloze-blank' placeholder='(noun)'> del cliente es una prioridad absoluta. Las empresas deben mantener altos estándares de <input type='text' class='cloze-blank' placeholder='(noun)'> y responder rápidamente a las <input type='text' class='cloze-blank' placeholder='(plural noun)'> .",
+                answers: ['servicio', 'calidad', 'quejas'],
+                answerText: 'servicio, calidad, quejas'
+            },
+            {
+                text: "La <input type='text' class='cloze-blank' placeholder='(noun phrase)'> de la marca incluye el logo, los colores y la <input type='text' class='cloze-blank' placeholder='(noun)'> . Una buena <input type='text' class='cloze-blank' placeholder='(noun phrase)'> genera confianza y lealtad en los clientes.",
+                answers: ['identidad visual', 'tipografía', 'imagen de marca'],
+                answerText: 'identidad visual, tipografía, imagen de marca'
+            },
+            {
+                text: "Los empleados deben cumplir con los <input type='text' class='cloze-blank' placeholder='(plural noun phrase)'> establecidos por la empresa. El <input type='text' class='cloze-blank' placeholder='(noun phrase)'> es esencial para mantener un ambiente laboral profesional.",
+                answers: ['estándares de calidad', 'código de ética'],
+                answerText: 'estándares de calidad, código de ética'
+            },
+            {
+                text: "La <input type='text' class='cloze-blank' placeholder='(noun)'> es el proceso de cambiar el comportamiento del consumidor mediante el <input type='text' class='cloze-blank' placeholder='(noun)'> . Las empresas utilizan <input type='text' class='cloze-blank' placeholder='(noun)'> para influir en las decisiones de compra.",
+                answers: ['persuasión', 'marketing', 'publicidad'],
+                answerText: 'persuasión, marketing, publicidad'
+            }
+        ];
+
+        // Costruisce l'HTML da testi
+        function renderExercises() {
+            const grammarContainer = document.getElementById('grammarTexts');
+            const terminologyContainer = document.getElementById('terminologyTexts');
+            let grammarIndex = 0;
+            let terminologyIndex = 0;
+
+            grammarExercises.forEach((ex, idx) => {
+                const div = document.createElement('div');
+                div.className = 'text-item';
+                
+                const inputCount = (ex.text.match(/<input/g) || []).length;
+                const inputs = [];
+                let tempText = ex.text;
+                for (let i = 0; i < inputCount; i++) {
+                    const id = `g${grammarIndex}_${i}`;
+                    inputs.push(id);
+                    tempText = tempText.replace('<input', `<input id='${id}' oninput="updateProgress()"`);
+                    grammarIndex++;
+                }
+
+                div.innerHTML = `
+                    <div class="text-item-num">Texto ${idx + 1}</div>
+                    <div>${tempText}</div>
+                    <div class="answer-key">
+                        <strong>Respuestas:</strong> ${ex.answerText}
+                    </div>
+                `;
+                grammarContainer.appendChild(div);
+            });
+
+            terminologyExercises.forEach((ex, idx) => {
+                const div = document.createElement('div');
+                div.className = 'text-item';
+                
+                const inputCount = (ex.text.match(/<input/g) || []).length;
+                const inputs = [];
+                let tempText = ex.text;
+                for (let i = 0; i < inputCount; i++) {
+                    const id = `t${terminologyIndex}_${i}`;
+                    inputs.push(id);
+                    tempText = tempText.replace('<input', `<input id='${id}' oninput="updateProgress()"`);
+                    terminologyIndex++;
+                }
+
+                div.innerHTML = `
+                    <div class="text-item-num">Texto ${idx + 1}</div>
+                    <div>${tempText}</div>
+                    <div class="answer-key">
+                        <strong>Respuestas:</strong> ${ex.answerText}
+                    </div>
+                `;
+                terminologyContainer.appendChild(div);
+            });
+
+            const totalCount = grammarExercises.reduce((sum, ex) => sum + ex.answers.length, 0) +
+                               terminologyExercises.reduce((sum, ex) => sum + ex.answers.length, 0);
+            document.getElementById('totalSpaces').textContent = totalCount;
+            document.getElementById('totalCount').textContent = totalCount;
+        }
+
+        function toggleAllAnswers() {
+            const btn = document.getElementById('toggleAnswersBtn');
+            const answers = document.querySelectorAll('.answer-key');
+
+            if (btn.classList.contains('active')) {
+                btn.classList.remove('active');
+                btn.textContent = 'Mostrar respuestas';
+                answers.forEach(ans => ans.classList.remove('visible'));
+            } else {
+                btn.classList.add('active');
+                btn.textContent = 'Ocultar respuestas';
+                answers.forEach(ans => ans.classList.add('visible'));
+            }
+        }
+
+        function updateProgress() {
+            const inputs = document.querySelectorAll('.cloze-blank');
+            let answered = 0;
+            inputs.forEach(input => {
+                if (input.value.trim()) answered++;
+            });
+            document.getElementById('answeredCount').textContent = answered;
+        }
+
+        function normalizeText(text) {
+            return text.toLowerCase().trim().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+        }
+
+        function submitTest() {
+            let scoreT1 = 0;
+            let scoreT2 = 0;
+
+            // Check T1
+            grammarExercises.forEach((ex, exIdx) => {
+                const inputs = document.querySelectorAll(`#grammarTexts [id^="g${exIdx}_"]`);
+                inputs.forEach((input, idx) => {
+                    const userAnswer = input.value.trim();
+                    const correctAnswer = ex.answers[idx];
+                    
+                    if (normalizeText(userAnswer) === normalizeText(correctAnswer)) {
+                        scoreT1++;
+                        input.classList.add('correct');
+                        input.classList.remove('incorrect');
+                    } else if (userAnswer) {
+                        input.classList.add('incorrect');
+                        input.classList.remove('correct');
+                    }
+                });
+            });
+
+            // Check T2
+            terminologyExercises.forEach((ex, exIdx) => {
+                const inputs = document.querySelectorAll(`#terminologyTexts [id^="t${exIdx}_"]`);
+                inputs.forEach((input, idx) => {
+                    const userAnswer = input.value.trim();
+                    const correctAnswer = ex.answers[idx];
+                    
+                    if (normalizeText(userAnswer) === normalizeText(correctAnswer)) {
+                        scoreT2++;
+                        input.classList.add('correct');
+                        input.classList.remove('incorrect');
+                    } else if (userAnswer) {
+                        input.classList.add('incorrect');
+                        input.classList.remove('correct');
+                    }
+                });
+            });
+
+            // Calculate percentages
+            const t1Total = grammarExercises.reduce((sum, ex) => sum + ex.answers.length, 0);
+            const t2Total = terminologyExercises.reduce((sum, ex) => sum + ex.answers.length, 0);
+
+            const scoreT1Pct = Math.round((scoreT1 / t1Total) * 50);
+            const scoreT2Pct = Math.round((scoreT2 / t2Total) * 50);
+            const totalScore = scoreT1Pct + scoreT2Pct;
+
+            document.getElementById('scoreT1').textContent = scoreT1Pct;
+            document.getElementById('scoreT2').textContent = scoreT2Pct;
+            document.getElementById('totalScore').textContent = totalScore;
+            
+            document.getElementById('results').classList.add('visible');
+            document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Initialize
+        renderExercises();
+    </script>
+</body>
+</html>
