@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Esercizi Spagnolo - 3 Parti</title>
+    <title>Esercizi Spagnolo - 3 Parti + Lexico</title>
     <style>
         * {
             margin: 0;
@@ -243,6 +243,17 @@
             color: var(--secondary-bg);
         }
 
+        .btn-shuffle {
+            background: transparent;
+            color: var(--accent-primary);
+            border: 2px solid var(--accent-secondary);
+        }
+
+        .btn-shuffle:hover {
+            background: var(--accent-secondary);
+            color: var(--secondary-bg);
+        }
+
         .results {
             background: var(--secondary-bg);
             padding: 2rem;
@@ -300,7 +311,7 @@
     <div class="container">
         <div class="header">
             <h1>Esercizi Spagnolo - 3 Parti</h1>
-            <p>Coniugazione • Grammatica con Opzioni • Lessico Libero</p>
+            <p>Coniugazione • Grammatica • Lessico (da Lexico.pdf)</p>
         </div>
 
         <div class="content">
@@ -312,7 +323,6 @@
                         Completa le frasi coniugando il verbo nella persona indicata. (Esempio: "hablar (yo, presente)" → "hablo")
                     </div>
                 </div>
-
                 <div id="part1Exercises"></div>
             </div>
 
@@ -324,24 +334,25 @@
                         Scegli la parola/preposizione corretta per completare le frasi.
                     </div>
                 </div>
-
                 <div id="part2Exercises"></div>
             </div>
 
             <!-- PARTE 3: LESSICO SENZA OPZIONI -->
             <div class="part">
                 <div class="part-header">
-                    <div class="part-title">Parte 3: Lessico Senza Opzioni</div>
+                    <div class="part-title">Parte 3: Lessico da Lexico.pdf</div>
                     <div class="part-description">
-                        Completa le frasi con il vocabolo appropriato (da memoria o dal vocabolario dei temi).
+                        Completa le frasi con il vocabolo appropriato (da memoria dal vocabolario professionale).
                     </div>
                 </div>
-
                 <div id="part3Exercises"></div>
             </div>
 
             <!-- CONTROLI -->
             <div class="controls">
+                <button class="btn btn-shuffle" onclick="shuffleExercises()">
+                    🔄 Mescola Esercizi
+                </button>
                 <button class="btn btn-answers" id="toggleAnswersBtn" onclick="toggleAnswers()">
                     Mostra risposte
                 </button>
@@ -358,197 +369,103 @@
         </div>
 
         <div class="footer">
-            <p>© Esercizi basati su "Entorno Laboral" - Lessico spagnolo B1</p>
+            <p>© Esercizi basati su "Entorno Laboral" Lexico - Vocabolario spagnolo B1</p>
+            <p>Ogni volta che clicchi "Mescola Esercizi", l'ordine cambia in modo casuale</p>
         </div>
     </div>
 
     <script>
-        // PARTE 1: CONIUGAZIONE VERBI
-        const part1Data = [
-            {
-                id: 'p1_1',
-                text: '(Yo) .................. (trabajar, presente) en una oficina.',
-                verb: 'trabajar',
-                person: 'yo',
-                tense: 'presente',
-                answer: 'trabajo'
-            },
-            {
-                id: 'p1_2',
-                text: '(Ella) .................. (ser, presente) ingeniera.',
-                verb: 'ser',
-                person: 'ella',
-                tense: 'presente',
-                answer: 'es'
-            },
-            {
-                id: 'p1_3',
-                text: '(Nosotros) .................. (hablar, presente) español.',
-                verb: 'hablar',
-                person: 'nosotros',
-                tense: 'presente',
-                answer: 'hablamos'
-            },
-            {
-                id: 'p1_4',
-                text: '(Ustedes) .................. (tener, presente) experiencia.',
-                verb: 'tener',
-                person: 'ustedes',
-                tense: 'presente',
-                answer: 'tienen'
-            },
-            {
-                id: 'p1_5',
-                text: '(Yo) .................. (hacer, futuro) un proyecto importante.',
-                verb: 'hacer',
-                person: 'yo',
-                tense: 'futuro',
-                answer: 'haré'
-            },
-            {
-                id: 'p1_6',
-                text: '(Ellos) .................. (llegar, pretérito) a la reunión a tiempo.',
-                verb: 'llegar',
-                person: 'ellos',
-                tense: 'pretérito',
-                answer: 'llegaron'
-            },
-            {
-                id: 'p1_7',
-                text: '(Tú) .................. (escribir, presente) un correo electrónico.',
-                verb: 'escribir',
-                person: 'tú',
-                tense: 'presente',
-                answer: 'escribes'
-            },
-            {
-                id: 'p1_8',
-                text: '(Nosotros) .................. (estar, presente) en el despacho.',
-                verb: 'estar',
-                person: 'nosotros',
-                tense: 'presente',
-                answer: 'estamos'
-            }
+        // PARTE 1: CONIUGAZIONE VERBI (da Lexico)
+        const part1DataBase = [
+            { id: 'p1_1', text: '(Yo) .................. (trabajar, presente) en una oficina.', verb: 'trabajar', person: 'yo', tense: 'presente', answer: 'trabajo' },
+            { id: 'p1_2', text: '(Ella) .................. (ser, presente) ingeniera.', verb: 'ser', person: 'ella', tense: 'presente', answer: 'es' },
+            { id: 'p1_3', text: '(Nosotros) .................. (hablar, presente) español.', verb: 'hablar', person: 'nosotros', tense: 'presente', answer: 'hablamos' },
+            { id: 'p1_4', text: '(Ustedes) .................. (tener, presente) experiencia.', verb: 'tener', person: 'ustedes', tense: 'presente', answer: 'tienen' },
+            { id: 'p1_5', text: '(Yo) .................. (hacer, futuro) un proyecto importante.', verb: 'hacer', person: 'yo', tense: 'futuro', answer: 'haré' },
+            { id: 'p1_6', text: '(Ellos) .................. (llegar, pretérito) a la reunión a tiempo.', verb: 'llegar', person: 'ellos', tense: 'pretérito', answer: 'llegaron' },
+            { id: 'p1_7', text: '(Tú) .................. (escribir, presente) un correo electrónico.', verb: 'escribir', person: 'tú', tense: 'presente', answer: 'escribes' },
+            { id: 'p1_8', text: '(Nosotros) .................. (estar, presente) en el despacho.', verb: 'estar', person: 'nosotros', tense: 'presente', answer: 'estamos' },
+            { id: 'p1_9', text: '(Yo) .................. (deletrear, presente) mi nombre.', verb: 'deletrear', person: 'yo', tense: 'presente', answer: 'deletreo' },
+            { id: 'p1_10', text: '(Ellas) .................. (exponer, presente) sus ideas.', verb: 'exponer', person: 'ellas', tense: 'presente', answer: 'exponen' },
+            { id: 'p1_11', text: '(Tú) .................. (leer, presente) el documento.', verb: 'leer', person: 'tú', tense: 'presente', answer: 'lees' },
+            { id: 'p1_12', text: '(Yo) .................. (presentarse, presente) con mis datos profesionales.', verb: 'presentarse', person: 'yo', tense: 'presente', answer: 'me presento' },
+            { id: 'p1_13', text: '(Ustedes) .................. (pronunciar, presente) bien.', verb: 'pronunciar', person: 'ustedes', tense: 'presente', answer: 'pronuncian' },
+            { id: 'p1_14', text: '(Ella) .................. (responder, presente) las preguntas.', verb: 'responder', person: 'ella', tense: 'presente', answer: 'responde' },
+            { id: 'p1_15', text: '(Nosotros) .................. (saludar, presente) al cliente.', verb: 'saludar', person: 'nosotros', tense: 'presente', answer: 'saludamos' },
         ];
 
         // PARTE 2: GRAMMATICA CON OPZIONI
-        const part2Data = [
-            {
-                id: 'p2_1',
-                text: 'La reunión es .................. las 10 de la mañana.',
-                options: ['en', 'a', 'de', 'por'],
-                answer: 'a'
-            },
-            {
-                id: 'p2_2',
-                text: 'Trabajo .................. una empresa grande en Madrid.',
-                options: ['en', 'de', 'por', 'para'],
-                answer: 'en'
-            },
-            {
-                id: 'p2_3',
-                text: 'Voy .................. el despacho cada mañana.',
-                options: ['en', 'a', 'de', 'por'],
-                answer: 'a'
-            },
-            {
-                id: 'p2_4',
-                text: 'Este proyecto es .................. nuestro equipo.',
-                options: ['de', 'para', 'a', 'en'],
-                answer: 'de'
-            },
-            {
-                id: 'p2_5',
-                text: 'Necesito hablar .................. el director.',
-                options: ['en', 'con', 'de', 'para'],
-                answer: 'con'
-            },
-            {
-                id: 'p2_6',
-                text: 'La oficina está .................. la calle Mayor.',
-                options: ['en', 'de', 'a', 'por'],
-                answer: 'en'
-            },
-            {
-                id: 'p2_7',
-                text: 'Trabajamos .................. conseguir los objetivos.',
-                options: ['por', 'para', 'en', 'de'],
-                answer: 'para'
-            },
-            {
-                id: 'p2_8',
-                text: 'He trabajado en esta empresa .................. 5 años.',
-                options: ['durante', 'hace', 'por', 'desde'],
-                answer: 'durante'
-            }
+        const part2DataBase = [
+            { id: 'p2_1', text: 'La reunión es .................. las 10 de la mañana.', options: ['en', 'a', 'de', 'por'], answer: 'a' },
+            { id: 'p2_2', text: 'Trabajo .................. una empresa grande en Madrid.', options: ['en', 'de', 'por', 'para'], answer: 'en' },
+            { id: 'p2_3', text: 'Voy .................. el despacho cada mañana.', options: ['en', 'a', 'de', 'por'], answer: 'a' },
+            { id: 'p2_4', text: 'Este proyecto es .................. nuestro equipo.', options: ['de', 'para', 'a', 'en'], answer: 'de' },
+            { id: 'p2_5', text: 'Necesito hablar .................. el director.', options: ['en', 'con', 'de', 'para'], answer: 'con' },
+            { id: 'p2_6', text: 'La oficina está .................. la calle Mayor.', options: ['en', 'de', 'a', 'por'], answer: 'en' },
+            { id: 'p2_7', text: 'Trabajamos .................. conseguir los objetivos.', options: ['por', 'para', 'en', 'de'], answer: 'para' },
+            { id: 'p2_8', text: 'He trabajado en esta empresa .................. 5 años.', options: ['durante', 'hace', 'por', 'desde'], answer: 'durante' },
+            { id: 'p2_9', text: 'El correo electrónico es .................. comunicación importante.', options: ['de', 'para', 'en', 'a'], answer: 'de' },
+            { id: 'p2_10', text: 'Me presento .................. mi nombre y profesión.', options: ['con', 'por', 'de', 'en'], answer: 'con' },
+            { id: 'p2_11', text: 'La tarjeta de visita contiene información .................. la empresa.', options: ['de', 'en', 'para', 'por'], answer: 'de' },
+            { id: 'p2_12', text: '¿Habla usted español .................. negocios?', options: ['para', 'por', 'de', 'en'], answer: 'para' },
+            { id: 'p2_13', text: 'Estoy de acuerdo .................. tu opinión.', options: ['con', 'en', 'para', 'de'], answer: 'con' },
+            { id: 'p2_14', text: 'Trabajamos .................. diferentes departamentos.', options: ['en', 'de', 'a', 'por'], answer: 'en' },
+            { id: 'p2_15', text: 'Este es mi número .................. teléfono.', options: ['de', 'a', 'en', 'para'], answer: 'de' },
         ];
 
-        // PARTE 3: LESSICO SENZA OPZIONI
-        const part3Data = [
-            {
-                id: 'p3_1',
-                text: 'El .................. es la persona que dirige la empresa.',
-                answer: 'director',
-                vocabulary: 'director'
-            },
-            {
-                id: 'p3_2',
-                text: 'Mi .................. trabaja conmigo en el mismo departamento.',
-                answer: 'compañero',
-                vocabulary: 'compañero'
-            },
-            {
-                id: 'p3_3',
-                text: 'El .................. electrónico es una herramienta importante de comunicación.',
-                answer: 'correo',
-                vocabulary: 'correo electrónico'
-            },
-            {
-                id: 'p3_4',
-                text: 'Para trabajar necesito mi .................. móvil y la computadora.',
-                answer: 'móvil',
-                vocabulary: 'móvil'
-            },
-            {
-                id: 'p3_5',
-                text: 'La .................. del abogado es defender a sus clientes.',
-                answer: 'profesión',
-                vocabulary: 'profesión'
-            },
-            {
-                id: 'p3_6',
-                text: 'Tengo una .................. importante mañana con el gerente.',
-                answer: 'reunión',
-                vocabulary: 'reunión'
-            },
-            {
-                id: 'p3_7',
-                text: 'Mi .................. en la empresa es analista de sistemas.',
-                answer: 'puesto',
-                vocabulary: 'puesto'
-            },
-            {
-                id: 'p3_8',
-                text: 'La .................. es el área de negocio más importante de la empresa.',
-                answer: 'venta',
-                vocabulary: 'venta'
-            }
+        // PARTE 3: LESSICO DAL PDF LEXICO
+        const part3DataBase = [
+            { id: 'p3_1', text: 'El .................. es la persona che dirige la empresa.', answer: 'director', vocabulary: 'director' },
+            { id: 'p3_2', text: 'Mi .................. trabaja conmigo en el mismo departamento.', answer: 'compañero', vocabulary: 'compañero' },
+            { id: 'p3_3', text: 'El .................. electrónico es una herramienta importante.', answer: 'correo', vocabulary: 'correo electrónico' },
+            { id: 'p3_4', text: 'Para trabajar necesito mi .................. y la computadora.', answer: 'móvil', vocabulary: 'móvil' },
+            { id: 'p3_5', text: 'La .................. del abogado es defender a sus clientes.', answer: 'profesión', vocabulary: 'profesión' },
+            { id: 'p3_6', text: 'Tengo una .................. importante mañana con el gerente.', answer: 'reunión', vocabulary: 'reunión' },
+            { id: 'p3_7', text: 'Mi .................. en la empresa es analista de sistemas.', answer: 'puesto', vocabulary: 'puesto' },
+            { id: 'p3_8', text: 'La .................. es el área de negocio más importante.', answer: 'venta', vocabulary: 'venta' },
+            { id: 'p3_9', text: 'El .................. contiene mis datos profesionales.', answer: 'currículum', vocabulary: 'currículum' },
+            { id: 'p3_10', text: 'Trabajo .................. la empresa desde hace 3 años.', answer: 'en', vocabulary: 'en' },
+            { id: 'p3_11', text: 'La .................. es una herramienta de comunicación.', answer: 'tarjeta', vocabulary: 'tarjeta de visita' },
+            { id: 'p3_12', text: 'El .................. es un medio de transporte importante.', answer: 'automóvil', vocabulary: 'automóvil' },
+            { id: 'p3_13', text: 'La .................. de mi empresa es la calle Mayor.', answer: 'dirección', vocabulary: 'dirección' },
+            { id: 'p3_14', text: 'Necesito hablar .................. el jefe de personal.', answer: 'con', vocabulary: 'con' },
+            { id: 'p3_15', text: 'El .................. de teléfono está en mi tarjeta de visita.', answer: 'número', vocabulary: 'número de teléfono' },
         ];
 
+        let part1Data = [...part1DataBase];
+        let part2Data = [...part2DataBase];
+        let part3Data = [...part3DataBase];
         let showAnswers = false;
+
+        function shuffleArray(array) {
+            const newArray = [...array];
+            for (let i = newArray.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+            }
+            return newArray;
+        }
+
+        function shuffleExercises() {
+            part1Data = shuffleArray(part1DataBase);
+            part2Data = shuffleArray(part2DataBase);
+            part3Data = shuffleArray(part3DataBase);
+            renderAll();
+            document.getElementById('results').classList.remove('visible');
+        }
 
         function renderPart1() {
             const container = document.getElementById('part1Exercises');
             container.innerHTML = '';
 
-            part1Data.forEach(ex => {
+            part1Data.forEach((ex, idx) => {
                 const div = document.createElement('div');
                 div.className = 'exercise-item';
                 
                 const text = ex.text.replace('..................', `<input type='text' id='${ex.id}' class='input-field' placeholder='${ex.verb} (${ex.person}, ${ex.tense})'>`);
                 
                 div.innerHTML = `
-                    <div class="exercise-num">Esercizio ${part1Data.indexOf(ex) + 1}</div>
+                    <div class="exercise-num">Esercizio ${idx + 1}</div>
                     <div class="exercise-text">${text}</div>
                     <div class="answer-hint" id="hint-${ex.id}">
                         <strong>Risposta:</strong> ${ex.answer}
@@ -600,6 +517,12 @@
             });
         }
 
+        function renderAll() {
+            renderPart1();
+            renderPart2();
+            renderPart3();
+        }
+
         function toggleAnswers() {
             showAnswers = !showAnswers;
             const hints = document.querySelectorAll('.answer-hint');
@@ -624,7 +547,6 @@
             let totalCorrect = 0;
             let totalExercises = 0;
 
-            // Check Part 1
             part1Data.forEach(ex => {
                 const input = document.getElementById(ex.id);
                 const userAnswer = input.value.trim();
@@ -640,7 +562,6 @@
                 }
             });
 
-            // Check Part 2
             part2Data.forEach(ex => {
                 const select = document.getElementById(ex.id);
                 const userAnswer = select.value.trim();
@@ -656,7 +577,6 @@
                 }
             });
 
-            // Check Part 3
             part3Data.forEach(ex => {
                 const input = document.getElementById(ex.id);
                 const userAnswer = input.value.trim();
@@ -679,9 +599,7 @@
         }
 
         // Initialize
-        renderPart1();
-        renderPart2();
-        renderPart3();
+        renderAll();
     </script>
 </body>
 </html>
