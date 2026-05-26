@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Esercizi Spagnolo - 3 Parti</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-bg: #ffffff;
+            --secondary-bg: #f5f1e8;
+            --text-primary: #2c2620;
+            --text-secondary: #6b6360;
+            --border-color: #d4af85;
+            --accent-primary: #7a5c38;
+            --accent-secondary: #6b8e5f;
+            --accent-warning: #d4a574;
+            --accent-danger: #c85a54;
+            --radius: 8px;
+        }
+
+        body {
+            font-family: 'Cormorant Garamond', 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #f5f1e8 0%, #e8e0d5 100%);
+            color: var(--text-primary);
+            line-height: 1.8;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: var(--primary-bg);
+            border-radius: var(--radius);
+            box-shadow: 0 8px 32px rgba(122, 92, 56, 0.12);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--accent-primary) 0%, #6b5130 100%);
+            color: var(--secondary-bg);
+            padding: 2.5rem 2rem;
+            text-align: center;
+            border-bottom: 3px solid var(--border-color);
+        }
+
+        .header h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .header p {
+            font-size: 1rem;
+            opacity: 0.95;
+            font-weight: 300;
+            letter-spacing: 0.3px;
+        }
+
+        .content {
+            padding: 2.5rem;
+        }
+
+        .part {
+            margin-bottom: 3rem;
+            page-break-inside: avoid;
+        }
+
+        .part-header {
+            border-bottom: 3px solid var(--border-color);
+            padding-bottom: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .part-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.6rem;
+            font-weight: 600;
+            color: var(--accent-primary);
+            margin-bottom: 0.3rem;
+            letter-spacing: 0.3px;
+        }
+
+        .part-description {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        .exercise-item {
+            background: var(--secondary-bg);
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            border-left: 4px solid var(--accent-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.9;
+        }
+
+        .exercise-num {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 700;
+            color: var(--accent-primary);
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .exercise-text {
+            margin-bottom: 0.8rem;
+        }
+
+        .input-field {
+            display: inline-block;
+            min-width: 120px;
+            height: 28px;
+            border: none;
+            border-bottom: 2px solid var(--accent-primary);
+            background: transparent;
+            font-size: 0.95rem;
+            padding: 4px 8px;
+            margin: 0 2px;
+            font-weight: 500;
+            vertical-align: bottom;
+            font-family: inherit;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-bottom-color: var(--accent-secondary);
+            box-shadow: 0 2px 0 var(--accent-secondary);
+        }
+
+        .input-field.correct {
+            border-bottom-color: var(--accent-secondary);
+            background: rgba(107, 142, 95, 0.08);
+        }
+
+        .input-field.incorrect {
+            border-bottom-color: var(--accent-danger);
+            background: rgba(200, 90, 84, 0.08);
+        }
+
+        .options {
+            display: flex;
+            gap: 0.8rem;
+            margin-top: 0.8rem;
+            flex-wrap: wrap;
+        }
+
+        .option-btn {
+            padding: 0.5rem 1rem;
+            background: var(--primary-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .option-btn:hover {
+            background: var(--accent-primary);
+            color: var(--secondary-bg);
+            border-color: var(--accent-primary);
+        }
+
+        .option-btn.selected {
+            background: var(--accent-primary);
+            color: var(--secondary-bg);
+            border-color: var(--accent-primary);
+        }
+
+        .answer-hint {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+            display: none;
+        }
+
+        .answer-hint.visible {
+            display: block;
+            padding: 0.75rem;
+            background: rgba(107, 142, 95, 0.12);
+            border-left: 3px solid var(--accent-secondary);
+            border-radius: 0 var(--radius) var(--radius) 0;
+        }
+
+        .controls {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-color);
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.85rem 1.8rem;
+            border: none;
+            border-radius: var(--radius);
+            font-family: 'DM Sans', -apple-system, sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            letter-spacing: 0.3px;
+        }
+
+        .btn-submit {
+            background: var(--accent-primary);
+            color: var(--secondary-bg);
+            box-shadow: 0 4px 12px rgba(122, 92, 56, 0.2);
+        }
+
+        .btn-submit:hover {
+            background: #6b5130;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(122, 92, 56, 0.3);
+        }
+
+        .btn-answers {
+            background: transparent;
+            color: var(--accent-primary);
+            border: 2px solid var(--accent-primary);
+        }
+
+        .btn-answers:hover {
+            background: var(--accent-primary);
+            color: var(--secondary-bg);
+        }
+
+        .btn-answers.active {
+            background: var(--accent-primary);
+            color: var(--secondary-bg);
+        }
+
+        .results {
+            background: var(--secondary-bg);
+            padding: 2rem;
+            border-radius: var(--radius);
+            border: 2px solid var(--border-color);
+            text-align: center;
+            display: none;
+            margin-top: 2rem;
+        }
+
+        .results.visible {
+            display: block;
+        }
+
+        .results h3 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent-primary);
+            letter-spacing: 0.3px;
+        }
+
+        .score {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent-secondary);
+            margin: 1.5rem 0;
+            letter-spacing: 1px;
+        }
+
+        .footer {
+            background: var(--secondary-bg);
+            padding: 1.5rem;
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            border-top: 1px solid var(--border-color);
+        }
+
+        @media print {
+            body { background: white; padding: 0; }
+            .container { box-shadow: none; }
+            .controls, .footer { display: none; }
+        }
+
+        @media (max-width: 768px) {
+            .content { padding: 1.5rem; }
+            .header h1 { font-size: 1.6rem; }
+            .input-field { min-width: 80px; font-size: 0.85rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Esercizi Spagnolo - 3 Parti</h1>
+            <p>Coniugazione • Grammatica con Opzioni • Lessico Libero</p>
+        </div>
+
+        <div class="content">
+            <!-- PARTE 1: CONIUGAZIONE VERBI -->
+            <div class="part">
+                <div class="part-header">
+                    <div class="part-title">Parte 1: Coniugazione Verbi</div>
+                    <div class="part-description">
+                        Completa le frasi coniugando il verbo nella persona indicata. (Esempio: "hablar (yo, presente)" → "hablo")
+                    </div>
+                </div>
+
+                <div id="part1Exercises"></div>
+            </div>
+
+            <!-- PARTE 2: GRAMMATICA CON OPZIONI -->
+            <div class="part">
+                <div class="part-header">
+                    <div class="part-title">Parte 2: Grammatica con Opzioni</div>
+                    <div class="part-description">
+                        Scegli la parola/preposizione corretta per completare le frasi.
+                    </div>
+                </div>
+
+                <div id="part2Exercises"></div>
+            </div>
+
+            <!-- PARTE 3: LESSICO SENZA OPZIONI -->
+            <div class="part">
+                <div class="part-header">
+                    <div class="part-title">Parte 3: Lessico Senza Opzioni</div>
+                    <div class="part-description">
+                        Completa le frasi con il vocabolo appropriato (da memoria o dal vocabolario dei temi).
+                    </div>
+                </div>
+
+                <div id="part3Exercises"></div>
+            </div>
+
+            <!-- CONTROLI -->
+            <div class="controls">
+                <button class="btn btn-answers" id="toggleAnswersBtn" onclick="toggleAnswers()">
+                    Mostra risposte
+                </button>
+                <button class="btn btn-submit" onclick="submitExercises()">
+                    Invia risposte
+                </button>
+            </div>
+
+            <!-- RISULTATI -->
+            <div class="results" id="results">
+                <h3>Risultati</h3>
+                <div class="score" id="totalScore">-</div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>© Esercizi basati su "Entorno Laboral" - Lessico spagnolo B1</p>
+        </div>
+    </div>
+
+    <script>
+        // PARTE 1: CONIUGAZIONE VERBI
+        const part1Data = [
+            {
+                id: 'p1_1',
+                text: '(Yo) .................. (trabajar, presente) en una oficina.',
+                verb: 'trabajar',
+                person: 'yo',
+                tense: 'presente',
+                answer: 'trabajo'
+            },
+            {
+                id: 'p1_2',
+                text: '(Ella) .................. (ser, presente) ingeniera.',
+                verb: 'ser',
+                person: 'ella',
+                tense: 'presente',
+                answer: 'es'
+            },
+            {
+                id: 'p1_3',
+                text: '(Nosotros) .................. (hablar, presente) español.',
+                verb: 'hablar',
+                person: 'nosotros',
+                tense: 'presente',
+                answer: 'hablamos'
+            },
+            {
+                id: 'p1_4',
+                text: '(Ustedes) .................. (tener, presente) experiencia.',
+                verb: 'tener',
+                person: 'ustedes',
+                tense: 'presente',
+                answer: 'tienen'
+            },
+            {
+                id: 'p1_5',
+                text: '(Yo) .................. (hacer, futuro) un proyecto importante.',
+                verb: 'hacer',
+                person: 'yo',
+                tense: 'futuro',
+                answer: 'haré'
+            },
+            {
+                id: 'p1_6',
+                text: '(Ellos) .................. (llegar, pretérito) a la reunión a tiempo.',
+                verb: 'llegar',
+                person: 'ellos',
+                tense: 'pretérito',
+                answer: 'llegaron'
+            },
+            {
+                id: 'p1_7',
+                text: '(Tú) .................. (escribir, presente) un correo electrónico.',
+                verb: 'escribir',
+                person: 'tú',
+                tense: 'presente',
+                answer: 'escribes'
+            },
+            {
+                id: 'p1_8',
+                text: '(Nosotros) .................. (estar, presente) en el despacho.',
+                verb: 'estar',
+                person: 'nosotros',
+                tense: 'presente',
+                answer: 'estamos'
+            }
+        ];
+
+        // PARTE 2: GRAMMATICA CON OPZIONI
+        const part2Data = [
+            {
+                id: 'p2_1',
+                text: 'La reunión es .................. las 10 de la mañana.',
+                options: ['en', 'a', 'de', 'por'],
+                answer: 'a'
+            },
+            {
+                id: 'p2_2',
+                text: 'Trabajo .................. una empresa grande en Madrid.',
+                options: ['en', 'de', 'por', 'para'],
+                answer: 'en'
+            },
+            {
+                id: 'p2_3',
+                text: 'Voy .................. el despacho cada mañana.',
+                options: ['en', 'a', 'de', 'por'],
+                answer: 'a'
+            },
+            {
+                id: 'p2_4',
+                text: 'Este proyecto es .................. nuestro equipo.',
+                options: ['de', 'para', 'a', 'en'],
+                answer: 'de'
+            },
+            {
+                id: 'p2_5',
+                text: 'Necesito hablar .................. el director.',
+                options: ['en', 'con', 'de', 'para'],
+                answer: 'con'
+            },
+            {
+                id: 'p2_6',
+                text: 'La oficina está .................. la calle Mayor.',
+                options: ['en', 'de', 'a', 'por'],
+                answer: 'en'
+            },
+            {
+                id: 'p2_7',
+                text: 'Trabajamos .................. conseguir los objetivos.',
+                options: ['por', 'para', 'en', 'de'],
+                answer: 'para'
+            },
+            {
+                id: 'p2_8',
+                text: 'He trabajado en esta empresa .................. 5 años.',
+                options: ['durante', 'hace', 'por', 'desde'],
+                answer: 'durante'
+            }
+        ];
+
+        // PARTE 3: LESSICO SENZA OPZIONI
+        const part3Data = [
+            {
+                id: 'p3_1',
+                text: 'El .................. es la persona que dirige la empresa.',
+                answer: 'director',
+                vocabulary: 'director'
+            },
+            {
+                id: 'p3_2',
+                text: 'Mi .................. trabaja conmigo en el mismo departamento.',
+                answer: 'compañero',
+                vocabulary: 'compañero'
+            },
+            {
+                id: 'p3_3',
+                text: 'El .................. electrónico es una herramienta importante de comunicación.',
+                answer: 'correo',
+                vocabulary: 'correo electrónico'
+            },
+            {
+                id: 'p3_4',
+                text: 'Para trabajar necesito mi .................. móvil y la computadora.',
+                answer: 'móvil',
+                vocabulary: 'móvil'
+            },
+            {
+                id: 'p3_5',
+                text: 'La .................. del abogado es defender a sus clientes.',
+                answer: 'profesión',
+                vocabulary: 'profesión'
+            },
+            {
+                id: 'p3_6',
+                text: 'Tengo una .................. importante mañana con el gerente.',
+                answer: 'reunión',
+                vocabulary: 'reunión'
+            },
+            {
+                id: 'p3_7',
+                text: 'Mi .................. en la empresa es analista de sistemas.',
+                answer: 'puesto',
+                vocabulary: 'puesto'
+            },
+            {
+                id: 'p3_8',
+                text: 'La .................. es el área de negocio más importante de la empresa.',
+                answer: 'venta',
+                vocabulary: 'venta'
+            }
+        ];
+
+        let showAnswers = false;
+
+        function renderPart1() {
+            const container = document.getElementById('part1Exercises');
+            container.innerHTML = '';
+
+            part1Data.forEach(ex => {
+                const div = document.createElement('div');
+                div.className = 'exercise-item';
+                
+                const text = ex.text.replace('..................', `<input type='text' id='${ex.id}' class='input-field' placeholder='${ex.verb} (${ex.person}, ${ex.tense})'>`);
+                
+                div.innerHTML = `
+                    <div class="exercise-num">Esercizio ${part1Data.indexOf(ex) + 1}</div>
+                    <div class="exercise-text">${text}</div>
+                    <div class="answer-hint" id="hint-${ex.id}">
+                        <strong>Risposta:</strong> ${ex.answer}
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function renderPart2() {
+            const container = document.getElementById('part2Exercises');
+            container.innerHTML = '';
+
+            part2Data.forEach((ex, idx) => {
+                const div = document.createElement('div');
+                div.className = 'exercise-item';
+                
+                const text = ex.text.replace('..................', `<select id='${ex.id}' class='input-field' style='width:100px;'><option value=''>--</option>${ex.options.map(o => `<option value='${o}'>${o}</option>`).join('')}</select>`);
+                
+                div.innerHTML = `
+                    <div class="exercise-num">Esercizio ${idx + 1}</div>
+                    <div class="exercise-text">${text}</div>
+                    <div class="answer-hint" id="hint-${ex.id}">
+                        <strong>Risposta:</strong> ${ex.answer}
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function renderPart3() {
+            const container = document.getElementById('part3Exercises');
+            container.innerHTML = '';
+
+            part3Data.forEach((ex, idx) => {
+                const div = document.createElement('div');
+                div.className = 'exercise-item';
+                
+                const text = ex.text.replace('..................', `<input type='text' id='${ex.id}' class='input-field' placeholder='vocabolo'>`);
+                
+                div.innerHTML = `
+                    <div class="exercise-num">Esercizio ${idx + 1}</div>
+                    <div class="exercise-text">${text}</div>
+                    <div class="answer-hint" id="hint-${ex.id}">
+                        <strong>Risposta:</strong> ${ex.answer}
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function toggleAnswers() {
+            showAnswers = !showAnswers;
+            const hints = document.querySelectorAll('.answer-hint');
+            const btn = document.getElementById('toggleAnswersBtn');
+
+            if (showAnswers) {
+                btn.classList.add('active');
+                btn.textContent = 'Nascondi risposte';
+                hints.forEach(h => h.classList.add('visible'));
+            } else {
+                btn.classList.remove('active');
+                btn.textContent = 'Mostra risposte';
+                hints.forEach(h => h.classList.remove('visible'));
+            }
+        }
+
+        function normalizeText(text) {
+            return text.toLowerCase().trim().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+        }
+
+        function submitExercises() {
+            let totalCorrect = 0;
+            let totalExercises = 0;
+
+            // Check Part 1
+            part1Data.forEach(ex => {
+                const input = document.getElementById(ex.id);
+                const userAnswer = input.value.trim();
+                totalExercises++;
+
+                if (normalizeText(userAnswer) === normalizeText(ex.answer)) {
+                    totalCorrect++;
+                    input.classList.add('correct');
+                    input.classList.remove('incorrect');
+                } else if (userAnswer) {
+                    input.classList.add('incorrect');
+                    input.classList.remove('correct');
+                }
+            });
+
+            // Check Part 2
+            part2Data.forEach(ex => {
+                const select = document.getElementById(ex.id);
+                const userAnswer = select.value.trim();
+                totalExercises++;
+
+                if (userAnswer === ex.answer) {
+                    totalCorrect++;
+                    select.classList.add('correct');
+                    select.classList.remove('incorrect');
+                } else if (userAnswer) {
+                    select.classList.add('incorrect');
+                    select.classList.remove('correct');
+                }
+            });
+
+            // Check Part 3
+            part3Data.forEach(ex => {
+                const input = document.getElementById(ex.id);
+                const userAnswer = input.value.trim();
+                totalExercises++;
+
+                if (normalizeText(userAnswer) === normalizeText(ex.answer)) {
+                    totalCorrect++;
+                    input.classList.add('correct');
+                    input.classList.remove('incorrect');
+                } else if (userAnswer) {
+                    input.classList.add('incorrect');
+                    input.classList.remove('correct');
+                }
+            });
+
+            const percentage = Math.round((totalCorrect / totalExercises) * 100);
+            document.getElementById('totalScore').textContent = `${totalCorrect}/${totalExercises} (${percentage}%)`;
+            document.getElementById('results').classList.add('visible');
+            document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Initialize
+        renderPart1();
+        renderPart2();
+        renderPart3();
+    </script>
+</body>
+</html>
