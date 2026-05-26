@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lezioni Spagnolo - Hub Principale</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-bg: #ffffff;
+            --secondary-bg: #f5f1e8;
+            --text-primary: #2c2620;
+            --text-secondary: #6b6360;
+            --border-color: #d4af85;
+            --accent-primary: #7a5c38;
+            --accent-secondary: #6b8e5f;
+            --radius: 8px;
+        }
+
+        body {
+            font-family: 'Cormorant Garamond', 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #f5f1e8 0%, #e8e0d5 100%);
+            color: var(--text-primary);
+            line-height: 1.8;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--accent-primary) 0%, #6b5130 100%);
+            color: var(--secondary-bg);
+            padding: 3rem 2rem;
+            text-align: center;
+            border-radius: var(--radius);
+            box-shadow: 0 8px 32px rgba(122, 92, 56, 0.12);
+            margin-bottom: 3rem;
+        }
+
+        .header h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.95;
+            font-weight: 300;
+            letter-spacing: 0.3px;
+        }
+
+        .welcome-box {
+            background: var(--primary-bg);
+            border-left: 4px solid var(--accent-secondary);
+            padding: 2rem;
+            border-radius: var(--radius);
+            margin-bottom: 3rem;
+            box-shadow: 0 4px 12px rgba(122, 92, 56, 0.08);
+        }
+
+        .welcome-box h2 {
+            color: var(--accent-primary);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+            letter-spacing: 0.5px;
+        }
+
+        .welcome-box p {
+            color: var(--text-secondary);
+            margin-bottom: 0.75rem;
+            line-height: 1.7;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .card {
+            background: var(--primary-bg);
+            border-radius: var(--radius);
+            box-shadow: 0 4px 12px rgba(122, 92, 56, 0.1);
+            overflow: hidden;
+            transition: all 0.3s;
+            border-left: 4px solid var(--accent-secondary);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 8px 24px rgba(122, 92, 56, 0.15);
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, var(--accent-primary) 0%, #8a6b4f 100%);
+            color: var(--secondary-bg);
+            padding: 1.5rem;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .card-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.25rem;
+        }
+
+        .card-subtitle {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .card-content {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-description {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+            flex-grow: 1;
+        }
+
+        .card-features {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            list-style: none;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-features li {
+            margin-bottom: 0.5rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .card-features li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--accent-secondary);
+            font-weight: bold;
+        }
+
+        .card-link {
+            display: inline-block;
+            background: var(--accent-primary);
+            color: var(--secondary-bg);
+            padding: 0.85rem 1.8rem;
+            border-radius: 4px;
+            font-weight: 600;
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.3s;
+            align-self: flex-start;
+            border: none;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.95rem;
+        }
+
+        .card-link:hover {
+            background: #6b5130;
+            transform: translateX(4px);
+        }
+
+        .info-section {
+            background: var(--primary-bg);
+            border-left: 4px solid var(--accent-secondary);
+            padding: 2rem;
+            border-radius: var(--radius);
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 8px rgba(122, 92, 56, 0.08);
+        }
+
+        .info-section h3 {
+            color: var(--accent-primary);
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+            letter-spacing: 0.3px;
+        }
+
+        .info-section p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 0.75rem;
+        }
+
+        .footer {
+            background: var(--primary-bg);
+            padding: 2rem;
+            text-align: center;
+            border-radius: var(--radius);
+            box-shadow: 0 2px 8px rgba(122, 92, 56, 0.08);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- HEADER -->
+        <div class="header">
+            <h1>📚 Lezioni Spagnolo B1</h1>
+            <p>Materiali Didattici Interattivi</p>
+        </div>
+
+        <!-- WELCOME -->
+        <div class="welcome-box">
+            <h2>Benvenuto!</h2>
+            <p>Questa pagina contiene tutti i materiali per il corso di spagnolo B1. Scegli il modulo che desideri studiare e inizia subito il tuo allenamento!</p>
+            <p style="font-size: 0.9rem; opacity: 0.8;">📖 Tutti gli esercizi si basano sul vocabolario "Entorno Laboral" - 20 temi di spagnolo professionale</p>
+        </div>
+
+        <!-- CARDS GRID -->
+        <div class="cards-grid">
+            <!-- CARD 1: SIMULAZIONE RAPIDA -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Simulazione Rapida</div>
+                    <div class="card-subtitle">30 minuti</div>
+                </div>
+                <div class="card-content">
+                    <p class="card-description">
+                        Prova veloce organizzata per 4 temi principali. Perfetta per allenarsi in poco tempo prima di una verifica.
+                    </p>
+                    <ul class="card-features">
+                        <li>22 esercizi</li>
+                        <li>4 temi principali</li>
+                        <li>Timer 30 minuti</li>
+                        <li>Conteggio progresso in tempo reale</li>
+                    </ul>
+                    <a href="index.html" class="card-link">Apri Simulazione →</a>
+                </div>
+            </div>
+
+            <!-- CARD 2: PRUEBA ESCRITA -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Prueba Escrita</div>
+                    <div class="card-subtitle">90 minuti</div>
+                </div>
+                <div class="card-content">
+                    <p class="card-description">
+                        Prova d'esame completa con due tareas: cloze di grammatica e cloze di terminologia settoriale.
+                    </p>
+                    <ul class="card-features">
+                        <li>20 testi (60+ spazi)</li>
+                        <li>Tarea 1: Grammatica (50 pt)</li>
+                        <li>Tarea 2: Terminologia (50 pt)</li>
+                        <li>Feedback automatico per risposta</li>
+                    </ul>
+                    <a href="prueba.html" class="card-link">Apri Prova →</a>
+                </div>
+            </div>
+
+            <!-- CARD 3: ESERCIZI 3 PARTI -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Esercizi 3 Parti</div>
+                    <div class="card-subtitle">Coniugazione + Grammatica + Lessico</div>
+                </div>
+                <div class="card-content">
+                    <p class="card-description">
+                        Tre tipologie progressive di esercizi per consolidare grammatica, preposizioni e vocabolario professionale.
+                    </p>
+                    <ul class="card-features">
+                        <li>Parte 1: Coniugazione verbi (8 esercizi)</li>
+                        <li>Parte 2: Grammatica con opzioni (8 esercizi)</li>
+                        <li>Parte 3: Lessico libero (8 esercizi)</li>
+                        <li>Valutazione automatica dettagliata</li>
+                    </ul>
+                    <a href="esercizi.html" class="card-link">Apri Esercizi →</a>
+                </div>
+            </div>
+
+            <!-- CARD 4: VERSIONE COMPLETA -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Versione Completa</div>
+                    <div class="card-subtitle">Tutti gli esercizi</div>
+                </div>
+                <div class="card-content">
+                    <p class="card-description">
+                        Versione estesa con tutti i temi (0-20) e esercizi aggiuntivi. Per uno studio approfondito e completo.
+                    </p>
+                    <ul class="card-features">
+                        <li>75+ esercizi totali</li>
+                        <li>10 temi di grammatica</li>
+                        <li>Vocabolario esteso</li>
+                        <li>Perfetto per ripasso generale</li>
+                    </ul>
+                    <a href="index-completo.html" class="card-link">Apri Completa →</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- INFO SECTIONS -->
+        <div class="info-section">
+            <h3>📖 Struttura dei Materiali</h3>
+            <p><strong>Fonte:</strong> Entorno Laboral - Spagnolo B1 (20 temi)</p>
+            <p><strong>Contenuti:</strong> Lessico professionale, comunicazione lavorativa, situazioni di business</p>
+            <p><strong>Livello:</strong> B1 (Intermedio)</p>
+        </div>
+
+        <div class="info-section">
+            <h3>💡 Suggerimenti per lo Studio</h3>
+            <p>✓ Inizia con la <strong>Simulazione Rapida</strong> (30 min) per un primo approccio</p>
+            <p>✓ Poi fai gli <strong>Esercizi 3 Parti</strong> per consolidare grammatica e lessico</p>
+            <p>✓ Infine prova la <strong>Prueba Escrita</strong> (90 min) per simulare l'esame</p>
+            <p>✓ Usa la <strong>Versione Completa</strong> per ripassare tutti i temi</p>
+        </div>
+
+        <!-- FOOTER -->
+        <div class="footer">
+            <p>© 2026 Materiali Didattici Spagnolo B1</p>
+            <p style="margin-top: 1rem; font-size: 0.85rem; opacity: 0.8;">
+                Design: Ricucire.it System | Font: Cormorant Garamond + DM Sans
+            </p>
+        </div>
+    </div>
+</body>
+</html>
